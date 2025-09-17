@@ -499,6 +499,21 @@ let deferredPrompt=null; const btn=document.getElementById('installBtn');
 window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;btn.style.display='inline-flex';});
 btn.addEventListener('click', async ()=>{ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; btn.style.display='none'; deferredPrompt=null;});
 </script>
+
+<footer style="text-align:center; margin-top: 20px; font-size: 0.9em; color: #C6AA58;">
+  © Sabrina Montalvo — Valuable Calculator™  
+  <br>
+  Compliance: NMLS #575897 · Subject to program rules  
+  <br>
+  <small>
+    Educational only; principal & interest shown (escrows not included). Not a commitment to lend.  
+    <br>
+    See our 
+    <a href="terms.html" style="color:#C6AA58;">Terms of Use</a> and 
+    <a href="privacy.html" style="color:#C6AA58;">Privacy Policy</a>.
+  </small>
+</footer>
+
 </body>
 </html>
 
