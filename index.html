@@ -75,36 +75,40 @@ footer{padding:30px 0;color:var(--muted)}
 <main class="wrap">
   <div class="grid">
     <!-- Old-school calculator -->
-    <section class="g4">
-      <div class="card calc">
-        <div id="screen" class="calc-screen">0</div>
-        <div class="calc-keys">
-          <button class="key" data-k="7">7</button>
-          <button class="key" data-k="8">8</button>
-          <button class="key" data-k="9">9</button>
-          <button class="key op" data-k="/">÷</button>
+<!-- Quick calculator (optional, collapsed) -->
+<section class="g4">
+  <details class="card calc" id="calcWrap">
+    <summary class="calc-summary">Quick calculator (optional)</summary>
 
-          <button class="key" data-k="4">4</button>
-          <button class="key" data-k="5">5</button>
-          <button class="key" data-k="6">6</button>
-          <button class="key op" data-k="*">×</button>
+    <div id="screen" class="calc-screen" aria-live="polite">0</div>
+    <div class="calc-keys">
+      <button class="key" data-k="7">7</button>
+      <button class="key" data-k="8">8</button>
+      <button class="key" data-k="9">9</button>
+      <button class="key op" data-k="/">÷</button>
 
-          <button class="key" data-k="1">1</button>
-          <button class="key" data-k="2">2</button>
-          <button class="key" data-k="3">3</button>
-          <button class="key op" data-k="-">−</button>
+      <button class="key" data-k="4">4</button>
+      <button class="key" data-k="5">5</button>
+      <button class="key" data-k="6">6</button>
+      <button class="key op" data-k="*">×</button>
 
-          <button class="key" data-k="0">0</button>
-          <button class="key" data-k=".">.</button>
-          <button class="key eq wide" data-k="=">=</button>
-          <button class="key op" data-k="+">+</button>
+      <button class="key" data-k="1">1</button>
+      <button class="key" data-k="2">2</button>
+      <button class="key" data-k="3">3</button>
+      <button class="key op" data-k="-">−</button>
 
-          <button class="key wide" data-k="C">C</button>
-          <button class="key wide" data-k="⌫">⌫</button>
-        </div>
-        <div class="small">Tip: Use it for quick what-ifs, then plug numbers into the tools →</div>
-      </div>
-    </section>
+      <button class="key" data-k="0">0</button>
+      <button class="key" data-k=".">.</button>
+      <button class="key eq wide" data-k="=">=</button>
+      <button class="key op" data-k="+">+</button>
+
+      <button class="key wide" data-k="C">C</button>
+      <button class="key wide" data-k="⌫">⌫</button>
+    </div>
+    <div class="small">Tip: You can type on your keyboard — digits, + − × ÷, Enter, Backspace, Esc.</div>
+  </details>
+</section>
+
 
     <!-- Equity / LTV -->
     <section class="g8">
@@ -266,6 +270,20 @@ footer{padding:30px 0;color:var(--muted)}
   document.querySelectorAll('.key').forEach(btn=>btn.addEventListener('click',()=>press(btn.dataset.k)));
   render();
 })();
+
+// Type to use the calculator
+document.addEventListener('keydown', (e) => {
+  const map = { 'Enter':'=', 'Backspace':'⌫', 'Escape':'C', '*':'*', '/':'/', '+':'+', '-':'-', '.':'.' };
+  if (/^[0-9]$/.test(e.key)) { press(e.key); return; }
+  if (map[e.key]) { press(map[e.key]); e.preventDefault(); }
+});
+// Type to use the calculator
+document.addEventListener('keydown', (e) => {
+  const map = { 'Enter':'=', 'Backspace':'⌫', 'Escape':'C', '*':'*', '/':'/', '+':'+', '-':'-', '.':'.' };
+  if (/^[0-9]$/.test(e.key)) { press(e.key); return; }
+  if (map[e.key]) { press(map[e.key]); e.preventDefault(); }
+});
+
 
 /* ===== Equity / LTV ===== */
 const fmt = n => n.toLocaleString(undefined,{style:'currency',currency:'USD'});
