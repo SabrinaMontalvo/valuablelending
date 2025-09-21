@@ -1,63 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Valuable Calculator™ — Old School Mortgage Tools</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<title>Valuable Calculator™ — Old-School + Mortgage Tools</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="manifest" href="manifest.webmanifest" />
+
+<!-- Inline styles so it looks right even without a separate CSS file -->
+<style>
+:root{
+  --ink:#01311F;           /* emerald/ink */
+  --gold:#C6AA58;          /* gold */
+  --paper:#F3F2ED;         /* warm paper */
+  --beige:#FFFDE7;         /* soft highlight */
+  --line:#E7E1D6;          /* borders */
+  --muted:#59564F;
+  --radius:16px;
+  --shadow:0 1px 0 rgba(17,17,17,.04),0 8px 24px rgba(1,49,31,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);
+  font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px}
+header{background:var(--ink);color:#fff;padding:18px 20px}
+header h1{margin:6px 0 14px;font-size:clamp(24px,2.8vw,38px);font-weight:800}
+header .badge{display:inline-block;background:#0a2f23;color:#fff;border:1px solid #1a4636;
+  padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px}
+header img{height:40px;width:auto;vertical-align:middle;margin-right:10px}
+
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:1fr}
+.g6{grid-column:span 6}
+.g8{grid-template-columns:repeat(12,1fr)}
+@media(min-width:900px){
+  .g4{grid-template-columns:1fr 1fr 1fr 1fr}
+  .g8{grid-template-columns:repeat(12,1fr)}
+  .g6{grid-column:span 6}
+}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+h2{font-size:clamp(18px,2.2vw,26px);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+
+label{display:block;font-size:13px;color:var(--muted);margin:8px 0 6px}
+input,select,button{font:inherit}
+input,select{
+  width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;
+  outline:none;box-shadow:inset 0 1px 0 rgba(17,17,17,.02)
+}
+input:focus,select:focus{border-color:#cdbf8b;box-shadow:0 0 0 3px rgba(198,170,88,.18)}
+.btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;cursor:pointer}
+.btn.gold{background:var(--gold);color:#1b1b1b;border-color:#b29a4f;font-weight:800}
+.btn:active{transform:translateY(1px)}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px}
+.kpi .label{font-size:12px;color:var(--muted)}
+.kpi .value{font-weight:800}
+
+.note{font-size:13px;color:var(--muted)}
+.legend{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.legend .swatch{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+.calc-screen{background:#e9f0e8;border:1px solid var(--line);border-radius:12px;padding:12px;
+  text-align:right;font-weight:800;font-size:22px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.key{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;font-weight:700;cursor:pointer}
+.key:hover{background:#faf8f0}
+.key[data-k="="]{background:var(--gold)}
+.key[data-k="C"],.key[data-k="⌫"]{grid-column:span 2}
+
+.canvas-wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+canvas.chart{width:320px;height:320px;display:block}
+
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse}
+thead th{background:#faf9f4;border-bottom:1px solid var(--line);padding:10px;text-align:left;font-size:14px}
+tbody td{border-top:1px solid var(--line);padding:8px}
+tbody tr:nth-child(odd){background:#fcfbf8}
+
+footer{color:var(--ink);border-top:1px solid var(--line);background:#f6f5f1;padding:18px 20px;margin-top:28px}
+footer a{color:var(--ink)}
+.small{font-size:12px}
+</style>
 </head>
 <body>
   <header>
-    <img src="/icons/logo-vc.png" alt="Valuable Calculator logo"
-         style="height:44px;width:auto;display:none;" onload="this.style.display='block'">
-    <h1>Valuable Calculator™ — Old School Mortgage Tools</h1>
+    <span class="badge">NMLS #575897</span>
+    <h1>Valuable Calculator™ <span style="color:var(--gold)">Old-School</span> + Mortgage Tools</h1>
+    <div class="small" style="opacity:.85">Replace your calculator. Learn equity & payoff fast. (P&I only; educational.)</div>
   </header>
 
   <main class="wrap">
 
     <!-- Collapsible Calculator -->
     <section class="g4">
-      <div class="card">
+      <div class="card" style="grid-column:1 / span 4; max-width:520px">
         <details open>
-          <summary style="cursor:pointer;font-weight:600">🖩 Old-School Calculator</summary>
+          <summary style="cursor:pointer;font-weight:700">🖩 Old-School Calculator</summary>
           <div style="margin-top:12px">
             <div id="screen" class="calc-screen">0</div>
             <div class="keys">
-              <button class="key" data-k="7">7</button>
-              <button class="key" data-k="8">8</button>
-              <button class="key" data-k="9">9</button>
-              <button class="key" data-k="/">÷</button>
-
-              <button class="key" data-k="4">4</button>
-              <button class="key" data-k="5">5</button>
-              <button class="key" data-k="6">6</button>
-              <button class="key" data-k="*">×</button>
-
-              <button class="key" data-k="1">1</button>
-              <button class="key" data-k="2">2</button>
-              <button class="key" data-k="3">3</button>
-              <button class="key" data-k="-">−</button>
-
-              <button class="key" data-k="0">0</button>
-              <button class="key" data-k=".">.</button>
-              <button class="key" data-k="=">=</button>
-              <button class="key" data-k="+">+</button>
-
-              <button class="key" data-k="C" style="grid-column:span 2">C</button>
-              <button class="key" data-k="⌫" style="grid-column:span 2">⌫</button>
+              <button class="key" data-k="7">7</button><button class="key" data-k="8">8</button><button class="key" data-k="9">9</button><button class="key" data-k="/">÷</button>
+              <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button><button class="key" data-k="*">×</button>
+              <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button><button class="key" data-k="-">−</button>
+              <button class="key" data-k="0">0</button><button class="key" data-k=".">.</button><button class="key" data-k="=">=</button><button class="key" data-k="+">+</button>
+              <button class="key" data-k="C">C</button><button class="key" data-k="⌫">⌫</button>
             </div>
-            <p class="note">Tip: you can also type numbers and operators on your keyboard</p>
+            <p class="note">Tip: you can also type numbers and operators on your keyboard.</p>
           </div>
         </details>
       </div>
     </section>
 
     <!-- Equity / LTV -->
-    <section class="g8">
-      <div class="card">
-        <h2>🏠 Equity Estimator with LTV Assumption</h2>
-        <div class="grid">
+    <section class="g8" style="margin-top:16px">
+      <div class="card" style="grid-column:1 / span 12">
+        <h2>🏠 Equity / LTV (with other balances & 80% benchmark)</h2>
+        <div class="grid" style="grid-template-columns:repeat(12,1fr)">
           <div class="g6">
             <label>Estimated Home Value ($)</label>
             <input id="v_value" type="number" value="330000" step="1000">
@@ -76,45 +134,45 @@
           </div>
         </div>
 
-        <div class="kpis" style="margin-top:10px">
+        <div class="kpis" style="margin-top:12px">
           <div class="kpi"><div class="label">Total Debt (incl. other)</div><div class="value" id="v_debt">—</div></div>
           <div class="kpi"><div class="label">LTV</div><div class="value" id="v_ltv">—</div></div>
           <div class="kpi"><div class="label">Max @ Benchmark</div><div class="value" id="v_max">—</div></div>
           <div class="kpi"><div class="label">Available @ Benchmark</div><div class="value" id="v_avail">—</div></div>
         </div>
 
-        <div class="grid" style="margin-top:10px;align-items:center">
-          <div class="g6">
-            <canvas id="v_donut" class="chart" style="width:100%;height:240px;"></canvas>
-            <div class="note" style="margin-top:6px; display:flex; gap:16px; align-items:center; flex-wrap:wrap">
-              <span style="display:inline-flex; align-items:center; gap:6px;">
-                <span style="width:12px;height:12px;border-radius:3px;background:#C6AA58;display:inline-block"></span> Equity
-              </span>
-              <span style="display:inline-flex; align-items:center; gap:6px;">
-                <span style="width:12px;height:12px;border-radius:3px;background:#01311F;display:inline-block"></span> Debt (Balances)
-              </span>
+        <div class="canvas-wrap" style="margin-top:10px">
+          <canvas id="v_donut" class="chart" width="320" height="320"></canvas>
+          <div class="note" style="max-width:480px">
+            <p><strong>How to read the donut:</strong></p>
+            <ul>
+              <li><b>Outer ring</b> = Equity (gold) vs Debt (emerald) for the home value.</li>
+              <li><b>Inner ring</b> splits Debt into <b>Mortgage</b> vs <b>Other Liens</b>.</li>
+            </ul>
+            <div class="legend">
+              <span><span class="swatch" style="background:var(--gold)"></span> Equity</span>
+              <span><span class="swatch" style="background:var(--ink)"></span> Debt total</span>
+              <span><span class="swatch" style="background:#0D2E24"></span> Mortgage (inner)</span>
+              <span><span class="swatch" style="background:#55786c"></span> Other liens (inner)</span>
             </div>
-          </div>
-          <div class="g6 note">
-            Value × benchmark% = target loan amount. Subtract existing balances to estimate funds available at that LTV. Programs vary; confirm with your lender.
           </div>
         </div>
       </div>
     </section>
 
     <!-- Amortization -->
-    <section class="g8">
-      <div class="card">
-        <h2>📈 Amortization & Faster Payoff</h2>
+    <section class="g8" style="margin-top:16px">
+      <div class="card" style="grid-column:1 / span 12">
+        <h2>📅 Amortization with Start Date + Extra Payments</h2>
 
-        <div class="grid">
+        <div class="grid" style="grid-template-columns:repeat(12,1fr)">
           <div class="g6">
             <label>Original Loan Amount ($)</label>
-            <input id="a_amount" type="number" value="350000" step="1000">
+            <input id="a_amount" type="number" value="300000" step="1000">
           </div>
           <div class="g6">
             <label>APR (%)</label>
-            <input id="a_rate" type="number" value="6.875" step="0.01">
+            <input id="a_rate" type="number" value="6.5" step="0.01">
           </div>
           <div class="g6">
             <label>Term (years)</label>
@@ -122,23 +180,20 @@
           </div>
           <div class="g6">
             <label>Origination Date</label>
-            <input id="a_start" type="date" value="2020-01-01">
+            <input id="a_start" type="date" value="2025-09-01">
           </div>
           <div class="g6">
             <label>Current Balance (optional)</label>
-            <input id="a_current" type="number" value="" placeholder="leave blank for new-loan">
+            <input id="a_current" type="number" placeholder="leave blank for new-loan">
           </div>
 
           <div class="g6">
-            <label>Monthly Extra ($)</label>
-            <input id="a_extra" type="number" value="0" step="50">
+            <label>Extra Principal ($/mo)</label>
+            <input id="a_extra" type="number" value="100" step="50">
           </div>
           <div class="g6">
             <label>Bi-weekly plan</label>
-            <select id="a_biweekly">
-              <option value="0" selected>No</option>
-              <option value="1">Yes (≈ 13th payment/yr)</option>
-            </select>
+            <select id="a_biweekly"><option value="0">No</option><option value="1">Yes (≈ 13th payment/yr)</option></select>
           </div>
           <div class="g6">
             <label>One-time Lump ($)</label>
@@ -150,271 +205,248 @@
           </div>
         </div>
 
-        <div class="kpis" style="margin-top:10px">
-          <div class="kpi"><div class="label">Baseline payoff</div><div class="value" id="k_base_date">—</div></div>
-          <div class="kpi"><div class="label">New payoff</div><div class="value" id="k_new_date">—</div></div>
-          <div class="kpi"><div class="label">Months saved</div><div class="value" id="k_saved">—</div></div>
-          <div class="kpi"><div class="label">Interest saved</div><div class="value" id="k_int_saved">—</div></div>
+        <div class="kpis" style="margin-top:12px">
+          <div class="kpi"><div class="label">Base P&I</div><div class="value" id="k_base_pi">—</div></div>
+          <div class="kpi"><div class="label">Projected Payoff</div><div class="value" id="k_new_date">—</div></div>
+          <div class="kpi"><div class="label">Interest Saved vs No Extras</div><div class="value" id="k_int_saved">—</div></div>
+          <div class="kpi"><div class="label">Months Saved</div><div class="value" id="k_saved">—</div></div>
         </div>
 
-        <div class="note" style="margin-top:8px">
-          Assumes fixed-rate, monthly compounding. Bi-weekly modeled as one extra monthly payment per year (26 half-payments). Educational use only.
+        <div style="margin:10px 0;display:flex;gap:10px;justify-content:flex-end">
+          <button id="a_calc" class="btn gold">Calculate</button>
         </div>
 
-        <div style="margin-top:12px;overflow:auto">
-          <table id="a_table" style="width:100%;border-collapse:collapse;font-size:0.95rem">
+        <div class="table-wrap">
+          <table id="a_table">
             <thead>
-              <tr style="border-bottom:1px solid var(--line)">
-                <th style="text-align:left;padding:6px">#</th>
-                <th style="text-align:left;padding:6px">Date</th>
-                <th style="text-align:right;padding:6px">Pay</th>
-                <th style="text-align:right;padding:6px">Interest</th>
-                <th style="text-align:right;padding:6px">Principal</th>
-                <th style="text-align:right;padding:6px">Extra</th>
-                <th style="text-align:right;padding:6px">Balance</th>
+              <tr>
+                <th>#</th><th>Date</th>
+                <th style="text-align:right">Payment</th>
+                <th style="text-align:right">Interest</th>
+                <th style="text-align:right">Principal</th>
+                <th style="text-align:right">Extra</th>
+                <th style="text-align:right">Balance</th>
               </tr>
             </thead>
             <tbody></tbody>
           </table>
         </div>
 
-        <div style="margin-top:12px;text-align:right">
-          <button id="a_calc" class="btn gold">Recalculate</button>
-        </div>
+        <p class="note" style="margin-top:10px">
+          Educational only; principal & interest shown (escrows not included). Not a commitment to lend.
+          Bi-weekly modeled as one extra monthly payment per year (26 half-payments).
+        </p>
       </div>
     </section>
 
   </main>
 
   <footer>
-    <p>© Sabrina Montalvo — Valuable Calculator™</p>
-    <p>
-      <a href="terms.html">Terms</a> · 
-      <a href="privacy.html">Privacy</a> · 
-      <a href="accessibility.html">Accessibility</a>
-    </p>
-    <p>Educational only; principal &amp; interest shown (escrows not included). Not a commitment to lend. NMLS #575897.</p>
+    <div class="wrap" style="padding-top:0">
+      <div>© Sabrina Montalvo — Valuable Calculator™</div>
+      <div class="small">Compliance: NMLS #575897 · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="accessibility.html">Accessibility</a></div>
+    </div>
   </footer>
 
-  <script>
-  /* ===== Calculator (with keyboard) ===== */
-  (() => {
-    const screen = document.getElementById('screen');
-    if (!screen) return;
-    let cur='0', op=null, mem=null;
-    const render=()=>{screen.textContent = cur;}
-    const press=(k)=>{
-      if (/^[0-9]$/.test(k)){ cur = (cur==='0') ? k : cur+k; }
-      else if (k==='.'){ if(!cur.includes('.')) cur += '.'; }
-      else if (k==='C'){ cur='0'; op=null; mem=null; }
-      else if (k==='⌫'){ cur = (cur.length>1)? cur.slice(0,-1):'0'; }
-      else if (['+','-','*','/'].includes(k)){ mem=parseFloat(cur); op=k; cur='0'; }
-      else if (k==='='){
-        if (op && mem!==null){
-          const a=mem, b=parseFloat(cur);
-          let r=0; if(op==='+') r=a+b; if(op==='-') r=a-b; if(op==='*') r=a*b; if(op==='/') r=b===0?0:a/b;
-          cur = String(r); op=null; mem=null;
-        }
-      }
-      render();
-    };
-    document.querySelectorAll('.key').forEach(btn=>btn.addEventListener('click',()=>press(btn.dataset.k)));
-    document.addEventListener('keydown', (e) => {
-      const map = { 'Enter':'=', 'Backspace':'⌫', 'Escape':'C', '*':'*', '/':'/', '+':'+', '-':'-', '.':'.' };
-      if (/^[0-9]$/.test(e.key)) { press(e.key); return; }
-      if (map[e.key]) { press(map[e.key]); e.preventDefault(); }
-    });
+<script>
+/* ========= Calculator (with keyboard) ========= */
+(()=> {
+  const screen = document.getElementById('screen'); if(!screen) return;
+  let cur='0', op=null, mem=null;
+  const render=()=>{screen.textContent=cur;}
+  const press=(k)=>{
+    if(/^[0-9]$/.test(k)) cur=(cur==='0')?k:cur+k;
+    else if(k==='.' && !cur.includes('.')) cur+='.';
+    else if(k==='C'){cur='0';op=null;mem=null;}
+    else if(k==='⌫') cur=(cur.length>1)?cur.slice(0,-1):'0';
+    else if(['+','-','*','/'].includes(k)){mem=parseFloat(cur);op=k;cur='0';}
+    else if(k==='=' && op && mem!=null){
+      const a=mem,b=parseFloat(cur); let r=0;
+      if(op==='+') r=a+b; if(op==='-') r=a-b; if(op==='*') r=a*b; if(op==='/') r=b===0?0:a/b;
+      cur=String(r);op=null;mem=null;
+    }
     render();
-  })();
-
-  /* ===== Equity / LTV logic ===== */
-  function money(v){ return (v||0).toLocaleString(undefined,{style:'currency',currency:'USD'}); }
-
-  function vUpdate(){
-    const val   = +document.getElementById('v_value').value || 0;
-    const mort  = +document.getElementById('v_mort').value  || 0;
-    const other = +document.getElementById('v_other').value || 0;
-    const bench = Math.max(0, Math.min(100, +document.getElementById('v_bench').value || 0));
-
-    const debt = mort + other;
-    const ltv  = val ? (debt / val) * 100 : 0;
-
-    document.getElementById('v_debt').textContent  = money(debt);
-    document.getElementById('v_ltv').textContent   = (Math.round(ltv*10)/10) + '%';
-    const maxAtBench = val * (bench/100);
-    const avail      = Math.max(0, maxAtBench - debt);
-    document.getElementById('v_max').textContent   = money(maxAtBench);
-    document.getElementById('v_avail').textContent = money(avail);
-
-    drawDonut('v_donut', (ltv/100), val - debt, debt);
-  }
-
-  window.addEventListener('load', vUpdate);
-  ['v_value','v_mort','v_other','v_bench'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el){ el.addEventListener('input', vUpdate); }
+  };
+  document.querySelectorAll('.key').forEach(b=>b.addEventListener('click',()=>press(b.dataset.k)));
+  document.addEventListener('keydown',(e)=>{
+    const map={Enter:'=',Backspace:'⌫',Escape:'C','*':'*','/':'/','+':'+','-':'-','.' :'.'};
+    if(/^[0-9]$/.test(e.key)) {press(e.key); return;}
+    if(map[e.key]){press(map[e.key]); e.preventDefault();}
   });
+  render();
+})();
 
-  function drawDonut(id, ltvPct, equityAmt, debtAmt){
-    const c=document.getElementById(id); if(!c) return;
-    const ctx=c.getContext('2d');
-    const w=c.clientWidth||300, h=c.clientHeight||240;
-    const dpr=window.devicePixelRatio||1;
-    c.width=w*dpr; c.height=h*dpr; ctx.scale(dpr,dpr);
-    ctx.clearRect(0,0,w,h);
+/* ========= Equity / LTV ========= */
+function money(v){return (v||0).toLocaleString(undefined,{style:'currency',currency:'USD'});}
 
-    const cx=w/2, cy=h/2;
-    const R=Math.min(w,h)*0.40, r=R*0.62;
-    const ring=(R+r)/2, lw=R-r;
+function vUpdate(){
+  const val   = +document.getElementById('v_value').value||0;
+  const mort  = +document.getElementById('v_mort').value||0;
+  const other = +document.getElementById('v_other').value||0;
+  const bench = Math.max(0,Math.min(100,+document.getElementById('v_bench').value||0));
 
-    const styles=getComputedStyle(document.documentElement);
-    const colDebt=styles.getPropertyValue('--ink').trim() || '#01311F';
-    const colEquity=styles.getPropertyValue('--gold').trim() || '#C6AA58';
+  const debt = mort+other;
+  const ltv  = val? (debt/val)*100 : 0;
 
-    // background ring
-    ctx.lineWidth=lw;
-    ctx.beginPath(); ctx.arc(cx,cy,ring,0,Math.PI*2);
-    ctx.strokeStyle='#E7E1D6'; ctx.stroke();
+  document.getElementById('v_debt').textContent = money(debt);
+  document.getElementById('v_ltv').textContent  = (Math.round(ltv*10)/10)+'%';
+  const maxAtBench = val*(bench/100);
+  const avail      = Math.max(0, maxAtBench - debt);
+  document.getElementById('v_max').textContent   = money(maxAtBench);
+  document.getElementById('v_avail').textContent = money(avail);
 
-    const debtFrac=Math.max(0,Math.min(1,ltvPct||0));
-    const start=-Math.PI/2;
+  drawDonutDual('v_donut', val, mort, other); // dual-ring donut
+}
+window.addEventListener('load', vUpdate);
+['v_value','v_mort','v_other','v_bench'].forEach(id=>{
+  const el=document.getElementById(id); if(el){el.addEventListener('input', vUpdate);}
+});
 
-    // debt arc
-    ctx.beginPath();
-    ctx.arc(cx,cy,ring,start,start+Math.PI*2*debtFrac);
-    ctx.strokeStyle=colDebt; ctx.lineCap='round'; ctx.stroke();
+/* Dual-ring donut: outer = equity vs debt, inner = mortgage vs other (within debt) */
+function drawDonutDual(id, value, mort, other){
+  const c=document.getElementById(id); if(!c) return; const ctx=c.getContext('2d');
+  const w=c.width, h=c.height, dpr=window.devicePixelRatio||1; ctx.setTransform(1,0,0,1,0,0);
+  c.width=w; c.height=h; ctx.scale(1,1);
+  ctx.clearRect(0,0,w,h);
 
-    // equity arc
-    ctx.beginPath();
-    ctx.arc(cx,cy,ring,start+Math.PI*2*debtFrac,start+Math.PI*2);
-    ctx.strokeStyle=colEquity; ctx.lineCap='round'; ctx.stroke();
+  const equity = Math.max(0,value - (mort+other));
+  const debt   = Math.max(0,mort+other);
+  const total  = Math.max(value, debt); // avoid zero divide
 
-    // center labels
-    ctx.textAlign='center';
-    ctx.fillStyle='#333'; ctx.font='600 14px system-ui';
-    ctx.fillText('LTV',cx,cy-12);
-    ctx.fillStyle='#111'; ctx.font='800 20px system-ui';
-    ctx.fillText(Math.round((ltvPct||0)*100)+'%',cx,cy+6);
+  // geometry
+  const cx=w/2, cy=h/2;
+  const R=140, r=95;               // outer ring thickness
+  const ring=(R+r)/2, lw=R-r;
+  const r2=65, r3=40;              // inner ring thickness
+  const inner=(r2+r3)/2, lw2=r2-r3;
+  const start=-Math.PI/2;
 
-    ctx.fillStyle='#555'; ctx.font='600 12px system-ui';
-    ctx.fillText('Balances',cx,cy+26);
-    const debtText=(debtAmt!=null)?debtAmt.toLocaleString(undefined,{style:'currency',currency:'USD'}):'$0';
-    ctx.fillStyle='#111'; ctx.font='700 14px system-ui';
-    ctx.fillText(debtText,cx,cy+44);
+  // colors
+  const colEquity=getComputedStyle(document.documentElement).getPropertyValue('--gold').trim()||'#C6AA58';
+  const colDebt=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim()||'#01311F';
+  const colMort='#0D2E24';
+  const colOther='#55786c';
+
+  // background guides
+  ctx.lineCap='round';
+
+  // outer: equity vs debt
+  const eqFrac = Math.max(0, Math.min(1, equity/total));
+  const debtFrac = 1 - eqFrac;
+
+  ctx.lineWidth=lw;
+  ctx.beginPath(); ctx.arc(cx,cy,ring,start,start+Math.PI*2); ctx.strokeStyle='#EEEAE0'; ctx.stroke();
+
+  // equity arc
+  ctx.beginPath();
+  ctx.arc(cx,cy,ring,start, start+Math.PI*2*eqFrac);
+  ctx.strokeStyle=colEquity; ctx.stroke();
+
+  // debt arc (rest of circle)
+  ctx.beginPath();
+  ctx.arc(cx,cy,ring,start+Math.PI*2*eqFrac, start+Math.PI*2);
+  ctx.strokeStyle=colDebt; ctx.stroke();
+
+  // inner: mortgage vs other (relative to debt)
+  ctx.lineWidth=lw2;
+  ctx.beginPath(); ctx.arc(cx,cy,inner,start,start+Math.PI*2); ctx.strokeStyle='#EEEAE0'; ctx.stroke();
+
+  let mortFrac = debt? mort/debt : 0;
+  mortFrac = Math.max(0,Math.min(1,mortFrac));
+
+  // mortgage arc
+  ctx.beginPath();
+  ctx.arc(cx,cy,inner,start, start+Math.PI*2*mortFrac);
+  ctx.strokeStyle=colMort; ctx.stroke();
+
+  // other arc
+  ctx.beginPath();
+  ctx.arc(cx,cy,inner,start+Math.PI*2*mortFrac, start+Math.PI*2);
+  ctx.strokeStyle=colOther; ctx.stroke();
+
+  // center text (LTV and balances)
+  const ltv = total? (debt/total*100):0;
+  ctx.textAlign='center';
+  ctx.fillStyle='#111'; ctx.font='800 24px system-ui'; ctx.fillText(Math.round(ltv)+'%',cx,cy-2);
+  ctx.fillStyle='#555'; ctx.font='600 12px system-ui'; ctx.fillText('LTV',cx,cy-24);
+  ctx.fillStyle='#333'; ctx.font='700 12px system-ui';
+  ctx.fillText('Balances',cx,cy+18);
+  ctx.fillStyle='#111'; ctx.font='700 14px system-ui';
+  ctx.fillText((mort+other).toLocaleString(undefined,{style:'currency',currency:'USD'}),cx,cy+36);
+}
+
+/* ========= Amortization ========= */
+const fmtUSD=(n)=> (n||0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+const addMonths=(d,m)=>{const t=new Date(d.getTime());t.setMonth(t.getMonth()+m);return t;}
+const ymd=(d)=> d.toISOString().slice(0,10);
+function mp(P,r,n){ if(r===0) return P/n; const a=Math.pow(1+r,n); return P*r*a/(a-1); }
+
+function build({principal,apr,months,start,extra=0,biweekly=false,lump=0,lumpAt=null}){
+  const r=apr/100/12, base=mp(principal,r,months), bonus=biweekly? base/12 : 0;
+  let bal=principal, k=0, totalInt=0, rows=[];
+  while(bal>0 && k<months+600){
+    const d=addMonths(start,k), int=bal*r; let pr=base-int; let ex=extra+bonus;
+    if(lump>0 && lumpAt && (k+1)===Number(lumpAt)) ex+=lump;
+    if(pr+ex>bal) pr=Math.max(0,bal-ex);
+    const pay=pr+int+ex; bal=Math.max(0, bal-pr-ex); totalInt+=int;
+    rows.push({n:k+1,date:ymd(d),payment:pay,interest:int,principal:pr,extra:ex,balance:bal});
+    if(bal<=0) break; k++;
   }
+  return {rows,months:k+1,totalInt,basePI:base};
+}
 
-  /* ===== Amortization logic ===== */
-  function fmtMoney(n){return (n||0).toLocaleString(undefined,{style:'currency',currency:'USD'});}
-  function addMonths(d, m){ const dt=new Date(d.getTime()); dt.setMonth(dt.getMonth()+m); return dt; }
-  function ymd(d){ return d.toISOString().slice(0,10); }
+function gather(){
+  const P = +document.getElementById('a_amount').value||0;
+  const R = +document.getElementById('a_rate').value||0;
+  const Y = +document.getElementById('a_years').value||30;
+  const S = new Date(document.getElementById('a_start').value||'2025-09-01');
+  const cur= +document.getElementById('a_current').value||0;
+  const extra= +document.getElementById('a_extra').value||0;
+  const biw  = document.getElementById('a_biweekly').value==='1';
+  const lump = +document.getElementById('a_lump').value||0;
+  const lm   = +document.getElementById('a_lump_month').value||null;
 
-  function monthlyPayment(P, r, n){
-    if (r===0) return P/n;
-    const a = Math.pow(1+r, n);
-    return P*r*a/(a-1);
+  const totalMonths = Math.max(1,Math.round(Y*12));
+  let rem = totalMonths;
+  if(cur>0){
+    const elapsed = Math.max(0, Math.round((new Date()-S)/(1000*60*60*24*30.437)));
+    rem = Math.max(1,totalMonths-elapsed);
   }
+  const principal = cur>0? cur : P;
+  return {principal, apr:R, months:rem, start:new Date(), extra, biweekly:biw, lump, lumpAt:lm};
+}
 
-  function buildSchedule({principal, rateAPR, termMonths, startDate, monthlyExtra=0, biweekly=false, lump=0, lumpMonth=null}){
-    const r = rateAPR/100/12;
-    const pay = monthlyPayment(principal, r, termMonths);
-    const bonusPerMonth = biweekly ? pay/12 : 0;
+function runAmort(){
+  const cfg=gather();
+  const base=build({...cfg, extra:0, biweekly:false, lump:0, lumpAt:null});
+  const now =build(cfg);
 
-    let bal = principal;
-    const rows = [];
-    let totalInt = 0;
-    let m = 0;
+  document.getElementById('k_base_pi').textContent = fmtUSD(base.basePI);
+  const newEnd=addMonths(new Date(), now.months-1);
+  document.getElementById('k_new_date').textContent=newEnd.toLocaleDateString();
+  document.getElementById('k_saved').textContent=Math.max(0,base.months-now.months);
+  document.getElementById('k_int_saved').textContent=fmtUSD(Math.max(0, base.totalInt-now.totalInt));
 
-    while(bal > 0 && m < termMonths+600){
-      const date = addMonths(startDate, m);
-      const interest = bal*r;
-      let principalPay = pay - interest;
-      let extra = monthlyExtra + bonusPerMonth;
-      if (lump>0 && lumpMonth!=null && m+1===Number(lumpMonth)) extra += lump;
-
-      if (principalPay + extra > bal) {
-        principalPay = Math.max(0, bal - extra);
-      }
-
-      const payment = principalPay + interest + extra;
-      bal = Math.max(0, bal - principalPay - extra);
-      totalInt += interest;
-
-      rows.push({ n: m+1, date: ymd(date), payment, interest, principal: principalPay, extra, balance: bal });
-
-      if (bal <= 0) break;
-      m++;
-    }
-    return {rows, months:m+1, totalInt};
+  const tbody=document.querySelector('#a_table tbody'); tbody.innerHTML='';
+  const show=now.rows.slice(0,360);
+  const f2=(n)=>n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  for(const r of show){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td>${r.n}</td>
+      <td>${r.date}</td>
+      <td style="text-align:right">${f2(r.payment)}</td>
+      <td style="text-align:right">${f2(r.interest)}</td>
+      <td style="text-align:right">${f2(r.principal)}</td>
+      <td style="text-align:right;color:var(--gold)">${f2(r.extra)}</td>
+      <td style="text-align:right">${f2(r.balance)}</td>`;
+    tbody.appendChild(tr);
   }
-
-  function gatherInputs(){
-    const P0 = +document.getElementById('a_amount').value || 0;
-    const rate = +document.getElementById('a_rate').value || 0;
-    const years = +document.getElementById('a_years').value || 30;
-    const start = new Date(document.getElementById('a_start').value || '2020-01-01');
-    const termMonths = Math.max(1, Math.round(years*12));
-    const curBal = +document.getElementById('a_current').value || 0;
-
-    let remainingMonths = termMonths;
-    if (curBal > 0) {
-      const elapsed = Math.max(0, Math.round((new Date() - start) / (1000*60*60*24*30.437)));
-      remainingMonths = Math.max(1, termMonths - elapsed);
-    }
-
-    const extra = +document.getElementById('a_extra').value || 0;
-    const biw = document.getElementById('a_biweekly').value === '1';
-    const lump = +document.getElementById('a_lump').value || 0;
-    const lumpMonth = +document.getElementById('a_lump_month').value || null;
-
-    const principal = (curBal>0) ? curBal : P0;
-
-    return { principal, rateAPR: rate, termMonths: remainingMonths, startDate: new Date(),
-             monthlyExtra: extra, biweekly: biw, lump, lumpMonth,
-             baseline: { principal, rateAPR: rate, termMonths: remainingMonths, startDate: new Date(),
-                         monthlyExtra: 0, biweekly: false, lump: 0, lumpMonth: null } };
-  }
-
-  function runAmort(){
-    const tBody = document.querySelector('#a_table tbody');
-    if (!tBody) return;
-
-    const cfg = gatherInputs();
-    const base = buildSchedule(cfg.baseline);
-    const now  = buildSchedule(cfg);
-
-    const baseEnd = addMonths(new Date(), base.months-1);
-    const newEnd  = addMonths(new Date(), now.months-1);
-    document.getElementById('k_base_date').textContent = baseEnd.toLocaleDateString();
-    document.getElementById('k_new_date').textContent  = newEnd.toLocaleDateString();
-    document.getElementById('k_saved').textContent     = Math.max(0, base.months - now.months);
-    const intSaved = Math.max(0, base.totalInt - now.totalInt);
-    document.getElementById('k_int_saved').textContent = fmtMoney(intSaved);
-
-    tBody.innerHTML = '';
-    const show = now.rows.slice(0, 360);
-    const fmt = (n)=>n.toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2});
-    for (const r of show){
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="padding:6px">${r.n}</td>
-        <td style="padding:6px">${r.date}</td>
-        <td style="padding:6px;text-align:right">${fmt(r.payment)}</td>
-        <td style="padding:6px;text-align:right">${fmt(r.interest)}</td>
-        <td style="padding:6px;text-align:right">${fmt(r.principal)}</td>
-        <td style="padding:6px;text-align:right;color:var(--gold)">${fmt(r.extra)}</td>
-        <td style="padding:6px;text-align:right">${fmt(r.balance)}</td>`;
-      tBody.appendChild(tr);
-    }
-  }
-
-  document.getElementById('a_calc')?.addEventListener('click', runAmort);
-  (function(){
-    const ids=['a_amount','a_rate','a_years','a_start','a_current','a_extra','a_biweekly','a_lump','a_lump_month'];
-    let t=null;
-    const go=()=>{ clearTimeout(t); t=setTimeout(runAmort, 300); };
-    ids.forEach(id=>{ const el=document.getElementById(id); if(el){ el.addEventListener('input',go); el.addEventListener('change',go);} });
-  })();
-  window.addEventListener('load', runAmort);
-  </script>
+}
+document.getElementById('a_calc')?.addEventListener('click',runAmort);
+['a_amount','a_rate','a_years','a_start','a_current','a_extra','a_biweekly','a_lump','a_lump_month']
+  .forEach(id=>{const el=document.getElementById(id); if(el){el.addEventListener('input',()=>setTimeout(runAmort,150)); el.addEventListener('change',()=>setTimeout(runAmort,150));}});
+window.addEventListener('load',runAmort);
+</script>
 </body>
 </html>
