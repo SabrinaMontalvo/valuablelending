@@ -1,14 +1,17 @@
 // service-worker.js
-const CACHE_NAME = 'valuable-cache-v3'; // ⬅️ bump this number when you change files
+const CACHE_NAME = 'valuable-cache-v7';
 const ASSETS = [
   '/',
   '/index.html',
   '/terms.html',
   '/privacy.html',
+  '/accessibility.html',
   '/manifest.webmanifest',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
+  '/icons/logo-vc.png'
 ];
+
 
 // Install: pre-cache core assets
 self.addEventListener('install', (event) => {

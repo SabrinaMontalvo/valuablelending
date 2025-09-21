@@ -63,10 +63,14 @@ footer{padding:30px 0;color:var(--muted)}
 <body>
 <header>
   <div class="wrap brand">
-    <div>
-      <div class="pill">NMLS #575897</div>
-      <h1>Valuable Calculator™ <span style="color:#C6AA58">Old-School</span> + Mortgage Tools</h1>
-      <div class="note">Replace your calculator. Learn equity & payoff fast. (P&I only; educational.)</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <!-- Optional logo (upload /icons/logo-vc.png first) -->
+      <img src="/icons/logo-vc.png" alt="Valuable Calculator logo" style="height:44px; width:auto; display:none;" onload="this.style.display='block'">
+      <div>
+        <div class="pill">NMLS #575897</div>
+        <h1>Valuable Calculator — Old School Mortgage Tools</h1>
+        <div class="note">Replace your calculator. Learn equity & payoff fast. (P&I only; educational.)</div>
+      </div>
     </div>
     <button id="installBtn" class="btn gold install" style="display:none">Install App</button>
   </div>
@@ -113,7 +117,7 @@ footer{padding:30px 0;color:var(--muted)}
     <!-- Equity / LTV -->
     <section class="g8">
       <div class="card">
-        <h2>🏠 Equity / LTV (with other balances & 80% benchmark)</h2>
+        <h2>🏠 Equity Estimator with LTV Assumption</h2>
         <div class="grid">
           <div class="g6">
             <label>Estimated Home Value ($)</label>
@@ -139,7 +143,16 @@ footer{padding:30px 0;color:var(--muted)}
           <div class="kpi"><div class="label">Available @ Benchmark</div><div class="value" id="v_avail">—</div></div>
         </div>
         <div class="grid" style="margin-top:10px;align-items:center">
-          <div class="g6"><canvas id="v_donut" class="chart"></canvas></div>
+          <div class="g6"><canvas id="v_donut" class="chart"></canvas><div class="note" style="margin-top:6px; display:flex; gap:16px; align-items:center; flex-wrap:wrap">
+  <span style="display:inline-flex; align-items:center; gap:6px;">
+    <span style="width:12px;height:12px;border-radius:3px;background:#C6AA58;display:inline-block"></span> Equity
+  </span>
+  <span style="display:inline-flex; align-items:center; gap:6px;">
+    <span style="width:12px;height:12px;border-radius:3px;background:#01311F;display:inline-block"></span> Debt (Balances)
+  </span>
+</div>
+
+</div>
           <div class="g6 note">
             Value × benchmark% = target loan amount. Subtract existing balances to estimate funds available at that LTV. Programs vary; confirm with your lender.
           </div>
@@ -301,7 +314,7 @@ function vUpdate(){
   document.getElementById('v_ltv').textContent = (ltv.toFixed(1))+'%';
   document.getElementById('v_max').textContent = fmt(maxAtBench);
   document.getElementById('v_avail').textContent = fmt(avail);
-  drawDonut('v_donut', ltv/100);
+  drawDonut('v_donut', ltv/100, val - debt, debt);;
 }
 vEls.forEach(el=>el.addEventListener('input', vUpdate));
 
