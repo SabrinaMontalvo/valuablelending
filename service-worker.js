@@ -57,7 +57,19 @@ self.addEventListener('fetch', (event) => {
         const copy = res.clone();
         caches.open(CACHE_NAME).then((c) => c.put(req, copy));
         return res;
-      });
+      });const CACHE_NAME = 'valuable-cache-v9'; // bump number
+const ASSETS = [
+  '/',
+  '/index.html',
+  '/terms.html',
+  '/privacy.html',
+  '/accessibility.html',
+  '/manifest.webmanifest',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/icons/logo-vc.png'   // new logo cached here
+];
+
     })
   );
 });
