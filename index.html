@@ -106,8 +106,81 @@
     <section class="g8">
       <div class="card">
         <h2>📈 Amortization & Faster Payoff</h2>
-        <!-- (inputs and table go here, as I sent in the last message) -->
-        <!-- ... -->
+
+        <div class="grid">
+          <div class="g6">
+            <label>Original Loan Amount ($)</label>
+            <input id="a_amount" type="number" value="350000" step="1000">
+          </div>
+          <div class="g6">
+            <label>APR (%)</label>
+            <input id="a_rate" type="number" value="6.875" step="0.01">
+          </div>
+          <div class="g6">
+            <label>Term (years)</label>
+            <input id="a_years" type="number" value="30" step="1">
+          </div>
+          <div class="g6">
+            <label>Origination Date</label>
+            <input id="a_start" type="date" value="2020-01-01">
+          </div>
+          <div class="g6">
+            <label>Current Balance (optional)</label>
+            <input id="a_current" type="number" value="" placeholder="leave blank for new-loan">
+          </div>
+
+          <div class="g6">
+            <label>Monthly Extra ($)</label>
+            <input id="a_extra" type="number" value="0" step="50">
+          </div>
+          <div class="g6">
+            <label>Bi-weekly plan</label>
+            <select id="a_biweekly">
+              <option value="0" selected>No</option>
+              <option value="1">Yes (≈ 13th payment/yr)</option>
+            </select>
+          </div>
+          <div class="g6">
+            <label>One-time Lump ($)</label>
+            <input id="a_lump" type="number" value="0" step="500">
+          </div>
+          <div class="g6">
+            <label>Lump applied at month #</label>
+            <input id="a_lump_month" type="number" value="12" step="1">
+          </div>
+        </div>
+
+        <div class="kpis" style="margin-top:10px">
+          <div class="kpi"><div class="label">Baseline payoff</div><div class="value" id="k_base_date">—</div></div>
+          <div class="kpi"><div class="label">New payoff</div><div class="value" id="k_new_date">—</div></div>
+          <div class="kpi"><div class="label">Months saved</div><div class="value" id="k_saved">—</div></div>
+          <div class="kpi"><div class="label">Interest saved</div><div class="value" id="k_int_saved">—</div></div>
+        </div>
+
+        <div class="note" style="margin-top:8px">
+          Assumes fixed-rate, monthly compounding. Bi-weekly modeled as one extra monthly payment per year (26 half-payments). Educational use only.
+        </div>
+
+        <div style="margin-top:12px;overflow:auto">
+          <table id="a_table" style="width:100%;border-collapse:collapse;font-size:0.95rem">
+            <thead>
+              <tr style="border-bottom:1px solid var(--line)">
+                <th style="text-align:left;padding:6px">#</th>
+                <th style="text-align:left;padding:6px">Date</th>
+                <th style="text-align:right;padding:6px">Pay</th>
+                <th style="text-align:right;padding:6px">Interest</th>
+                <th style="text-align:right;padding:6px">Principal</th>
+                <th style="text-align:right;padding:6px">Extra</th>
+                <th style="text-align:right;padding:6px">Balance</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:12px;text-align:right">
+          <button id="a_calc" class="btn gold">Recalculate</button>
+        </div>
       </div>
     </section>
 
@@ -124,7 +197,7 @@
   </footer>
 
   <script>
-  /* ===== Calculator ===== */
+  /* ===== Calculator (with keyboard) ===== */
   (() => {
     const screen = document.getElementById('screen');
     if (!screen) return;
@@ -154,20 +227,194 @@
     render();
   })();
 
-  /* ===== Equity / LTV JS ===== */
+  /* ===== Equity / LTV logic ===== */
   function money(v){ return (v||0).toLocaleString(undefined,{style:'currency',currency:'USD'}); }
-  function vUpdate(){ /* same vUpdate code I gave earlier */ }
+
+  function vUpdate(){
+    const val   = +document.getElementById('v_value').value || 0;
+    const mort  = +document.getElementById('v_mort').value  || 0;
+    const other = +document.getElementById('v_other').value || 0;
+    const bench = Math.max(0, Math.min(100, +document.getElementById('v_bench').value || 0));
+
+    const debt = mort + other;
+    const ltv  = val ? (debt / val) * 100 : 0;
+
+    document.getElementById('v_debt').textContent  = money(debt);
+    document.getElementById('v_ltv').textContent   = (Math.round(ltv*10)/10) + '%';
+    const maxAtBench = val * (bench/100);
+    const avail      = Math.max(0, maxAtBench - debt);
+    document.getElementById('v_max').textContent   = money(maxAtBench);
+    document.getElementById('v_avail').textContent = money(avail);
+
+    drawDonut('v_donut', (ltv/100), val - debt, debt);
+  }
+
   window.addEventListener('load', vUpdate);
   ['v_value','v_mort','v_other','v_bench'].forEach(id=>{
-    const el=document.getElementById(id); if(el){ el.addEventListener('input', vUpdate); }
+    const el = document.getElementById(id);
+    if(el){ el.addEventListener('input', vUpdate); }
   });
 
-  /* ===== drawDonut ===== */
-  function drawDonut(id, ltvPct, equityAmt, debtAmt){ /* full donut code here */ }
+  function drawDonut(id, ltvPct, equityAmt, debtAmt){
+    const c=document.getElementById(id); if(!c) return;
+    const ctx=c.getContext('2d');
+    const w=c.clientWidth||300, h=c.clientHeight||240;
+    const dpr=window.devicePixelRatio||1;
+    c.width=w*dpr; c.height=h*dpr; ctx.scale(dpr,dpr);
+    ctx.clearRect(0,0,w,h);
 
-  /* ===== Amortization ===== */
-  // (full amortization JS code from my previous message goes here)
+    const cx=w/2, cy=h/2;
+    const R=Math.min(w,h)*0.40, r=R*0.62;
+    const ring=(R+r)/2, lw=R-r;
 
+    const styles=getComputedStyle(document.documentElement);
+    const colDebt=styles.getPropertyValue('--ink').trim() || '#01311F';
+    const colEquity=styles.getPropertyValue('--gold').trim() || '#C6AA58';
+
+    // background ring
+    ctx.lineWidth=lw;
+    ctx.beginPath(); ctx.arc(cx,cy,ring,0,Math.PI*2);
+    ctx.strokeStyle='#E7E1D6'; ctx.stroke();
+
+    const debtFrac=Math.max(0,Math.min(1,ltvPct||0));
+    const start=-Math.PI/2;
+
+    // debt arc
+    ctx.beginPath();
+    ctx.arc(cx,cy,ring,start,start+Math.PI*2*debtFrac);
+    ctx.strokeStyle=colDebt; ctx.lineCap='round'; ctx.stroke();
+
+    // equity arc
+    ctx.beginPath();
+    ctx.arc(cx,cy,ring,start+Math.PI*2*debtFrac,start+Math.PI*2);
+    ctx.strokeStyle=colEquity; ctx.lineCap='round'; ctx.stroke();
+
+    // center labels
+    ctx.textAlign='center';
+    ctx.fillStyle='#333'; ctx.font='600 14px system-ui';
+    ctx.fillText('LTV',cx,cy-12);
+    ctx.fillStyle='#111'; ctx.font='800 20px system-ui';
+    ctx.fillText(Math.round((ltvPct||0)*100)+'%',cx,cy+6);
+
+    ctx.fillStyle='#555'; ctx.font='600 12px system-ui';
+    ctx.fillText('Balances',cx,cy+26);
+    const debtText=(debtAmt!=null)?debtAmt.toLocaleString(undefined,{style:'currency',currency:'USD'}):'$0';
+    ctx.fillStyle='#111'; ctx.font='700 14px system-ui';
+    ctx.fillText(debtText,cx,cy+44);
+  }
+
+  /* ===== Amortization logic ===== */
+  function fmtMoney(n){return (n||0).toLocaleString(undefined,{style:'currency',currency:'USD'});}
+  function addMonths(d, m){ const dt=new Date(d.getTime()); dt.setMonth(dt.getMonth()+m); return dt; }
+  function ymd(d){ return d.toISOString().slice(0,10); }
+
+  function monthlyPayment(P, r, n){
+    if (r===0) return P/n;
+    const a = Math.pow(1+r, n);
+    return P*r*a/(a-1);
+  }
+
+  function buildSchedule({principal, rateAPR, termMonths, startDate, monthlyExtra=0, biweekly=false, lump=0, lumpMonth=null}){
+    const r = rateAPR/100/12;
+    const pay = monthlyPayment(principal, r, termMonths);
+    const bonusPerMonth = biweekly ? pay/12 : 0;
+
+    let bal = principal;
+    const rows = [];
+    let totalInt = 0;
+    let m = 0;
+
+    while(bal > 0 && m < termMonths+600){
+      const date = addMonths(startDate, m);
+      const interest = bal*r;
+      let principalPay = pay - interest;
+      let extra = monthlyExtra + bonusPerMonth;
+      if (lump>0 && lumpMonth!=null && m+1===Number(lumpMonth)) extra += lump;
+
+      if (principalPay + extra > bal) {
+        principalPay = Math.max(0, bal - extra);
+      }
+
+      const payment = principalPay + interest + extra;
+      bal = Math.max(0, bal - principalPay - extra);
+      totalInt += interest;
+
+      rows.push({ n: m+1, date: ymd(date), payment, interest, principal: principalPay, extra, balance: bal });
+
+      if (bal <= 0) break;
+      m++;
+    }
+    return {rows, months:m+1, totalInt};
+  }
+
+  function gatherInputs(){
+    const P0 = +document.getElementById('a_amount').value || 0;
+    const rate = +document.getElementById('a_rate').value || 0;
+    const years = +document.getElementById('a_years').value || 30;
+    const start = new Date(document.getElementById('a_start').value || '2020-01-01');
+    const termMonths = Math.max(1, Math.round(years*12));
+    const curBal = +document.getElementById('a_current').value || 0;
+
+    let remainingMonths = termMonths;
+    if (curBal > 0) {
+      const elapsed = Math.max(0, Math.round((new Date() - start) / (1000*60*60*24*30.437)));
+      remainingMonths = Math.max(1, termMonths - elapsed);
+    }
+
+    const extra = +document.getElementById('a_extra').value || 0;
+    const biw = document.getElementById('a_biweekly').value === '1';
+    const lump = +document.getElementById('a_lump').value || 0;
+    const lumpMonth = +document.getElementById('a_lump_month').value || null;
+
+    const principal = (curBal>0) ? curBal : P0;
+
+    return { principal, rateAPR: rate, termMonths: remainingMonths, startDate: new Date(),
+             monthlyExtra: extra, biweekly: biw, lump, lumpMonth,
+             baseline: { principal, rateAPR: rate, termMonths: remainingMonths, startDate: new Date(),
+                         monthlyExtra: 0, biweekly: false, lump: 0, lumpMonth: null } };
+  }
+
+  function runAmort(){
+    const tBody = document.querySelector('#a_table tbody');
+    if (!tBody) return;
+
+    const cfg = gatherInputs();
+    const base = buildSchedule(cfg.baseline);
+    const now  = buildSchedule(cfg);
+
+    const baseEnd = addMonths(new Date(), base.months-1);
+    const newEnd  = addMonths(new Date(), now.months-1);
+    document.getElementById('k_base_date').textContent = baseEnd.toLocaleDateString();
+    document.getElementById('k_new_date').textContent  = newEnd.toLocaleDateString();
+    document.getElementById('k_saved').textContent     = Math.max(0, base.months - now.months);
+    const intSaved = Math.max(0, base.totalInt - now.totalInt);
+    document.getElementById('k_int_saved').textContent = fmtMoney(intSaved);
+
+    tBody.innerHTML = '';
+    const show = now.rows.slice(0, 360);
+    const fmt = (n)=>n.toLocaleString(undefined,{maximumFractionDigits:2,minimumFractionDigits:2});
+    for (const r of show){
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="padding:6px">${r.n}</td>
+        <td style="padding:6px">${r.date}</td>
+        <td style="padding:6px;text-align:right">${fmt(r.payment)}</td>
+        <td style="padding:6px;text-align:right">${fmt(r.interest)}</td>
+        <td style="padding:6px;text-align:right">${fmt(r.principal)}</td>
+        <td style="padding:6px;text-align:right;color:var(--gold)">${fmt(r.extra)}</td>
+        <td style="padding:6px;text-align:right">${fmt(r.balance)}</td>`;
+      tBody.appendChild(tr);
+    }
+  }
+
+  document.getElementById('a_calc')?.addEventListener('click', runAmort);
+  (function(){
+    const ids=['a_amount','a_rate','a_years','a_start','a_current','a_extra','a_biweekly','a_lump','a_lump_month'];
+    let t=null;
+    const go=()=>{ clearTimeout(t); t=setTimeout(runAmort, 300); };
+    ids.forEach(id=>{ const el=document.getElementById(id); if(el){ el.addEventListener('input',go); el.addEventListener('change',go);} });
+  })();
+  window.addEventListener('load', runAmort);
   </script>
 </body>
 </html>
