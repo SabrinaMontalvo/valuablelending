@@ -1,128 +1,254 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Valuable Calculator™ — Old-School + Mortgage Tools</title>
-<link rel="icon" href="icons/icon-192.png">
-<meta name="theme-color" content="#01311F">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#01311F" />
+
 <style>
-:root{
-  --ink:#01311F;
-  --gold:#C6AA58;
-  --paper:#F3F2ED;
-  --mauve:#B892A6;
-  --mint:#8EBF9F;
-  --cream:#F3F2ED;
-  --line:#E7E3DA;
-  --bg:#F7F6F2;
-  --shadow:0 1px 0 rgba(0,0,0,.02),0 8px 24px rgba(1,49,31,.06);
-}
-*{box-sizing:border-box}
-body{margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
-header{background:var(--ink);color:#fff;padding:28px 16px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
-.hwrap{max-width:1100px;margin:0 auto}
-.badge{display:inline-block;padding:6px 10px;border-radius:16px;background:#062a1c30;border:1px solid #2b5a45;color:#d9efe6;font-weight:600}
-h1{margin:12px 0 6px;font-weight:800;letter-spacing:.2px}
-h1 span{color:var(--gold)}
-.sub{opacity:.85;font-size:.95rem}
-.main{max-width:1100px;margin:10px auto 18px;padding:12px} /* tighter top spacing */
-.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-.grid{display:grid;gap:20px;grid-template-columns:360px 1fr}
-h2{margin:0 0 12px}
-.legend{font-size:.95rem;color:#59654F}
-.row-2{display:grid;gap:14px;grid-template-columns:1fr 1fr}
-.kpis{display:grid;gap:12px;grid-template-columns:repeat(4,1fr)}
-.kpi{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;min-height:64px;display:flex;flex-direction:column;justify-content:center}
-.kpi strong{font-size:1.1rem}
-label{font-weight:600;display:block;margin:4px 0}
-input,select{width:100%;height:48px;padding:10px 14px;border:1px solid var(--line);background:#fff;border-radius:10px;outline:none}
-input:focus,select:focus{border-color:#a7b9ae;box-shadow:0 0 0 3px rgba(19,110,87,.12)}
-.btn{border:1px solid #b5a469;background:var(--gold);color:#1b1b1b;font-weight:700;border-radius:12px;padding:12px 16px;cursor:pointer}
-.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}
-.calc-grid{display:grid;gap:10px;grid-template-columns:repeat(4,1fr);margin-top:10px}
-.calc-grid button{min-height:56px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:700;cursor:pointer}
-.calc-grid .wide{grid-column:span 2;background:var(--gold);border-color:#b9a05a}
-.kbd{width:100%;height:56px;border-radius:12px;border:1px solid var(--line);background:#f6f7f4;font-size:24px;padding:8px 12px}
-.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px}
-.dot.mort{background:var(--mauve)}
-.dot.lien{background:var(--mint)}
-.dot.gold{background:var(--gold);border:1px solid rgba(0,0,0,.06)}
-.dot.cream{background:var(--cream);border:1px solid rgba(0,0,0,.06)}
-.table{width:100%;border-collapse:collapse;margin-top:12px}
-.table th,.table td{border-top:1px solid var(--line);padding:10px 8px;text-align:right}
-.table th:first-child,.table td:first-child{text-align:center}
-.table th:nth-child(2),.table td:nth-child(2){text-align:left}
-.table thead th{background:#faf9f7;font-weight:700}
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-input[type=number]{-moz-appearance:textfield;font-size:16px}
-input,select,textarea{font-size:16px}
-canvas{max-width:420px;width:100%;height:auto;display:block}
-@media (max-width:980px){.grid{grid-template-columns:1fr}}
-@media (max-width:640px){
-  .row-2{grid-template-columns:1fr}
-  .kpis{grid-template-columns:1fr 1fr}
-  .main{margin-top:6px} /* mobile: align tight to header */
-}
-footer{padding:26px 12px;color:#666;text-align:center}
-footer .small{font-size:.9rem}
+  :root{
+    --emerald:#01311F;
+    --gold:#C6AA58;
+    --cream:#F3F2ED;
+    --paper:#F7F5F1;
+    --mauve:#C8A1C6;
+    --mint:#7FBF9E;
+    --ink:#111;
+    --line:#E3E0DA;
+    --shadow:0 2px 10px rgba(0,0,0,.06);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:#faf9f7;
+    color:var(--ink);
+    font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  }
+  header{
+    background:var(--emerald);
+    color:#fff;
+    padding:16px 20px 22px;
+  }
+  header .badge{
+    display:inline-block;
+    font-size:12px;
+    padding:6px 10px;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;
+    margin-bottom:10px;
+  }
+  header h1{
+    margin:6px 0 2px;
+    font-size:clamp(26px,3.2vw,42px);
+    letter-spacing:.2px;
+  }
+  header h1 .accent{color:var(--gold); font-weight:800}
+  header p{margin:8px 0 0; opacity:.9; font-size:14px}
+
+  .wrap{
+    max-width:1100px;
+    margin:20px auto 60px;
+    padding:0 16px;
+  }
+
+  /* Sections */
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px;
+  }
+  .card + .card{margin-top:20px}
+  .card h2{
+    margin:0 0 14px;
+    font-size:20px;
+    color:#0b2d22;
+    display:flex; align-items:center; gap:10px;
+  }
+  .subgrid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+  @media (max-width: 860px){
+    .subgrid{grid-template-columns:1fr}
+  }
+
+  label{font-weight:600; font-size:14px; display:block; margin:8px 0 6px}
+  input, select, button{
+    font:inherit;
+  }
+  input[type="text"], input[type="number"], input[type="date"], select{
+    width:100%;
+    padding:12px 12px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance: none; margin:0 }
+  input[type="number"]{ appearance:textfield }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:12px 16px; border-radius:10px; border:0; cursor:pointer;
+    background:var(--gold); color:#1a1608; font-weight:700;
+    box-shadow:var(--shadow);
+  }
+  .btn.secondary{
+    background:#fff; color:#1b3a2f; border:1px solid var(--line);
+  }
+  .pill{
+    display:inline-block; padding:6px 10px; border:1px solid var(--line);
+    border-radius:999px; font-size:12px; background:#fff;
+  }
+
+  /* Calculator */
+  .calc{
+    display:grid; gap:10px;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+  }
+  .calc-display{
+    grid-column: 1 / -1;
+    background:#eef3ef;
+    border:1px solid var(--line);
+    border-radius:10px; padding:12px 12px;
+    height:48px; display:flex; align-items:center;
+    font-variant-numeric: tabular-nums;
+  }
+  .calc button{
+    height:56px; border-radius:12px; border:1px solid var(--line);
+    background:#fff; cursor:pointer; font-weight:700;
+  }
+  .calc .eq{ background:var(--gold) }
+
+  /* KPI mini panels */
+  .kpis{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:12px }
+  .kpi{ background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px }
+  .kpi small{display:block; color:#2a4; font-weight:700}
+
+  /* Donut */
+  .donut-box{
+    display:grid; grid-template-columns:320px 1fr; gap:18px; align-items:start;
+    margin-top:10px;
+  }
+  @media (max-width: 860px){
+    .donut-box{ grid-template-columns:1fr }
+    canvas{ max-width:100%; height:auto }
+  }
+  .legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:8px}
+  .legend span{display:inline-flex; align-items:center; gap:8px}
+  .swatch{width:14px; height:14px; border-radius:3px; border:1px solid #cfc9c4}
+
+  /* Table */
+  table{ width:100%; border-collapse:collapse; border:1px solid var(--line); border-radius:10px; overflow:hidden }
+  thead th{ background:#faf8f3; border-bottom:1px solid var(--line); padding:10px 8px; text-align:left; font-size:14px }
+  tbody td{ border-top:1px solid #eee; padding:10px 8px; font-variant-numeric:tabular-nums }
+
+  /* Footer */
+  footer{
+    margin-top:36px; background:#fff; border-top:1px solid var(--line);
+  }
+  .foot-wrap{max-width:1100px; margin:0 auto; padding:20px 16px; color:#333}
+  .foot-grid{
+    display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;
+    font-size:14px;
+  }
+  .links{display:flex; gap:12px}
+  .links a{color:#1a3a2f; text-decoration:none; border-bottom:1px dotted #9aa}
+  .note{font-size:12px; opacity:.85}
 </style>
 </head>
 <body>
+
 <header>
-  <div class="hwrap">
-    <span class="badge">NMLS #575897</span>
-    <h1>Valuable Calculator™ <span>Old-School</span> + Mortgage Tools</h1>
-    <div class="sub">Free, nostalgic, and practical. Always consult a licensed professional.</div>
-  </div>
+  <div class="badge">NMLS #575897</div>
+  <h1>Valuable Calculator™ <span class="accent">Old-School</span> + Mortgage Tools</h1>
+  <p>Free, nostalgic, and practical. Always consult a licensed professional.</p>
 </header>
 
-<main class="main grid">
-  <!-- Old-School Calculator -->
-  <section class="card">
-    <div style="display:flex;align-items:center;gap:8px">
-      <h2 style="margin:0">Old-School Calculator</h2>
-      <button class="btn secondary" id="calcReset" type="button">Reset</button>
+<div class="wrap">
+
+  <!-- Old-school calculator -->
+  <section class="card" id="calc-card">
+    <h2>Old-School Calculator <button id="calcReset" class="pill" style="margin-left:8px">Reset</button></h2>
+    <div class="calc">
+      <input id="calcDisplay" class="calc-display" aria-label="Calculator display" value="0" />
+      <!-- row 1 -->
+      <button data-k="7">7</button>
+      <button data-k="8">8</button>
+      <button data-k="9">9</button>
+      <button data-k="+">+</button>
+      <!-- row 2 -->
+      <button data-k="4">4</button>
+      <button data-k="5">5</button>
+      <button data-k="6">6</button>
+      <button data-k="*">×</button>
+      <!-- row 3 -->
+      <button data-k="1">1</button>
+      <button data-k="2">2</button>
+      <button data-k="3">3</button>
+      <button data-k="-">−</button>
+      <!-- row 4 -->
+      <button data-k="0">0</button>
+      <button data-k=".">.</button>
+      <button class="eq" data-k="=">=</button>
+      <button id="calcBack">⌫</button>
     </div>
-    <input id="calcDisplay" class="kbd" type="text" value="0" aria-label="Calculator display"
-           inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false">
-    <div class="calc-grid">
-      <button>7</button><button>8</button><button>9</button><button>÷</button>
-      <button>4</button><button>5</button><button>6</button><button>×</button>
-      <button>1</button><button>2</button><button>3</button><button>−</button>
-      <button>0</button><button>.</button><button class="wide">=</button>
-      <button id="back">⌫</button><button id="clear">C</button>
-    </div>
-    <div class="legend" style="margin-top:8px">Tip: type numbers & operators on your keyboard, or tap the keys above.</div>
+    <p style="margin:10px 0 0; font-size:13px; color:#333">
+      Tip: click the display to type numbers & operators from your keyboard.
+    </p>
   </section>
 
-  <!-- Equity + Donut -->
-  <section class="card">
-    <h2>Equity (Mortgage + Liens + Available)</h2>
-    <div class="row-2" style="margin-bottom:10px">
-      <div><label for="v_value">Estimated Home Value ($)</label><input id="v_value" type="number" inputmode="decimal" value="330000"></div>
-      <div><label for="v_mort">Primary Mortgage Balance ($)</label><input id="v_mort" type="number" inputmode="decimal" value="120000"></div>
-      <div><label for="v_other">Other Liens ($)</label><input id="v_other" type="number" inputmode="decimal" value="0"></div>
-      <div><label for="v_bench">Benchmark LTV (%)</label><input id="v_bench" type="number" inputmode="decimal" value="80" min="50" max="100"></div>
+  <!-- Equity + donut -->
+  <section class="card" id="equity-card">
+    <h2>🏡 Equity (Mortgage + Liens + Available)</h2>
+
+    <div class="subgrid">
+      <div>
+        <label for="eqValue">Estimated Home Value ($)</label>
+        <input id="eqValue" type="number" inputmode="decimal" value="330000" />
+      </div>
+      <div>
+        <label for="eqMort">Primary Mortgage Balance ($)</label>
+        <input id="eqMort" type="number" inputmode="decimal" value="120000" />
+      </div>
+      <div>
+        <label for="eqOther">Other Liens (HELOC, Solar, 2nd) ($)</label>
+        <input id="eqOther" type="number" inputmode="decimal" value="0" />
+      </div>
+      <div>
+        <label for="eqBench">Benchmark LTV (%)</label>
+        <input id="eqBench" type="number" min="60" max="100" step="1" value="80" />
+      </div>
     </div>
 
-    <!-- NEW: manual recalc button for mobile users -->
-    <button id="v_recalc" class="btn" type="button" style="margin-bottom:12px">Recalculate</button>
+    <div style="margin-top:10px">
+      <button id="eqCalc" class="btn">Recalculate</button>
+    </div>
 
     <div class="kpis">
-      <div class="kpi"><div>Total Debt</div><strong id="k_debt">$0</strong></div>
-      <div class="kpi"><div>LTV</div><strong id="k_ltv">0%</strong></div>
-      <div class="kpi"><div>Max @ Benchmark</div><strong id="k_max">$0</strong></div>
-      <div class="kpi"><div>Available @ Benchmark</div><strong id="k_avail" style="color:#0a6a2f">$0</strong></div>
+      <div class="kpi"><div>Total Debt</div><small id="kpiDebt">$0</small></div>
+      <div class="kpi"><div>LTV</div><small id="kpiLTV">0%</small></div>
+      <div class="kpi"><div>Max @ Benchmark</div><small id="kpiMax">$0</small></div>
+      <div class="kpi"><div>Available @ Benchmark</div><small id="kpiAvail">$0</small></div>
     </div>
 
-    <div style="margin-top:16px;display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
-      <canvas id="v_donut" width="480" height="480"></canvas>
-      <div style="min-width:260px">
-        <div style="margin-bottom:8px"><span class="dot mort"></span> Mortgage &nbsp;&nbsp;<span class="dot lien"></span> Other liens</div>
-        <div style="margin-bottom:12px"><span class="dot gold"></span> Available estimated equity &nbsp;&nbsp;<span class="dot cream"></span> Untouchable equity</div>
-        <p class="legend">
+    <div class="donut-box">
+      <canvas id="donut" width="320" height="320" aria-label="Equity donut graph"></canvas>
+      <div>
+        <div class="legend">
+          <span><span class="swatch" style="background:var(--mauve)"></span> Mortgage</span>
+          <span><span class="swatch" style="background:var(--mint)"></span> Other liens</span>
+          <span><span class="swatch" style="background:var(--gold)"></span> Available estimated equity</span>
+          <span><span class="swatch" style="background:#f5f2ea"></span> Untouchable equity</span>
+        </div>
+        <p style="margin-top:10px; color:#2a3a35">
           The ring is your home’s value (outer = 100%). From the top “start” mark clockwise:
           Mortgage (mauve) + Other Liens (mint) that are eating up equity already,
           <strong>gold shades available estimated equity</strong>, and cream shows
@@ -134,200 +260,356 @@ footer .small{font-size:.9rem}
   </section>
 
   <!-- Amortization -->
-  <section class="card" style="grid-column:1 / -1">
-    <h2>Amortization with Start Date + Extra Payments</h2>
-    <div class="row-2">
-      <div><label for="a_loan">Original Loan Amount ($)</label><input id="a_loan" type="number" inputmode="decimal" value="300000"></div>
-      <div><label for="a_rate">APR (%)</label><input id="a_rate" type="number" inputmode="decimal" value="6.5" step="0.01"></div>
-      <div><label for="a_term">Term (years)</label><input id="a_term" type="number" inputmode="numeric" value="30"></div>
-      <div><label for="a_orig">Origination Date</label><input id="a_orig" type="date"></div>
-      <div><label for="a_balance">Current Balance (optional)</label><input id="a_balance" type="number" inputmode="decimal" placeholder="leave blank if new loan"></div>
-      <div><label for="a_extra">Extra Principal ($/mo)</label><input id="a_extra" type="number" inputmode="decimal" value="100"></div>
-      <div><label for="a_biweekly">Bi-weekly plan</label><select id="a_biweekly"><option>No</option><option>Yes</option></select></div>
-      <div><label for="a_lump">One-time Lump ($)</label><input id="a_lump" type="number" inputmode="decimal" value="0"></div>
-      <div><label for="a_lumpm">Lump at month #</label><input id="a_lumpm" type="number" inputmode="numeric" value="12"></div>
-      <div style="display:flex;align-items:flex-end"><button class="btn" id="a_calc" type="button">Calculate</button></div>
+  <section class="card" id="amort-card">
+    <h2>📅 Amortization with Start Date + Extra Payments</h2>
+
+    <div class="subgrid">
+      <div>
+        <label for="a_amount">Original Loan Amount ($)</label>
+        <input id="a_amount" type="number" value="300000" />
+      </div>
+      <div>
+        <label for="a_apr">APR (%)</label>
+        <input id="a_apr" type="number" step="0.01" value="6.5" />
+      </div>
+      <div>
+        <label for="a_term">Term (years)</label>
+        <input id="a_term" type="number" value="30" />
+      </div>
+      <div>
+        <label for="a_start">Origination Date</label>
+        <input id="a_start" type="date" />
+      </div>
+      <div>
+        <label for="a_curr">Current Balance (optional)</label>
+        <input id="a_curr" type="number" placeholder="leave blank if new loan" />
+      </div>
+      <div>
+        <label for="a_extra">Extra Principal ($/mo)</label>
+        <input id="a_extra" type="number" value="100" />
+      </div>
+      <div>
+        <label for="a_biweekly">Bi-weekly plan</label>
+        <select id="a_biweekly">
+          <option>No</option>
+          <option>Yes</option>
+        </select>
+      </div>
+      <div>
+        <label for="a_lump">One-time Lump ($)</label>
+        <input id="a_lump" type="number" value="0" />
+      </div>
+      <div>
+        <label for="a_lumpm">Lump at month #</label>
+        <input id="a_lumpm" type="number" value="12" />
+      </div>
+      <div style="display:flex; align-items:end">
+        <button id="a_go" class="btn">Calculate</button>
+      </div>
     </div>
-    <div class="kpis" style="margin-top:12px">
-      <div class="kpi"><div>Base P&I</div><strong id="a_base">—</strong></div>
-      <div class="kpi"><div>Projected Payoff</div><strong id="a_payoff">—</strong></div>
-      <div class="kpi"><div>Interest Saved</div><strong id="a_saved">—</strong></div>
-      <div class="kpi"><div>Months Saved</div><strong id="a_msaved">—</strong></div>
+
+    <div class="kpis" style="margin-top:16px">
+      <div class="kpi"><div>Base P&I</div><small id="a_base">—</small></div>
+      <div class="kpi"><div>Projected Payoff</div><small id="a_payoff">—</small></div>
+      <div class="kpi"><div>Interest Saved</div><small id="a_saved">—</small></div>
+      <div class="kpi"><div>Months Saved</div><small id="a_msaved">—</small></div>
     </div>
-    <p class="legend" style="margin-top:10px">
+
+    <div style="overflow:auto; margin-top:12px">
+      <table id="a_tbl">
+        <thead><tr>
+          <th>#</th><th>Date</th><th>Payment</th><th>Interest</th>
+          <th>Principal</th><th>Extra</th><th>Balance</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:12px; font-size:13px; color:#333">
       Educational only. Principal & interest shown (escrows not included). Not a commitment to lend.
-      <strong>Bi-weekly:</strong> modeled transparently as about <em>one extra monthly payment per year</em> (26 half-payments ≈ 13 monthly).
-      Always consult a licensed professional.
+      <strong>Bi-weekly:</strong> modeled transparently as about <em>one extra monthly payment per year</em>
+      (26 half-payments ≈ 13 monthly). Always consult a licensed professional.
     </p>
-    <table class="table" id="a_table">
-      <thead><tr><th>#</th><th>Date</th><th>Payment</th><th>Interest</th><th>Principal</th><th>Extra</th><th>Balance</th></tr></thead>
-      <tbody id="a_tbody"></tbody>
-    </table>
   </section>
 
-  <!-- Break-Even -->
-  <section class="card" style="grid-column:1 / -1">
-    <h2>Refinance Break-Even</h2>
-    <div class="row-2">
-      <div><label for="r_costs">Total refinance costs ($)</label><input id="r_costs" type="number" inputmode="decimal" value="4500"></div>
-      <div><label for="r_savings">Monthly payment savings ($)</label><input id="r_savings" type="number" inputmode="decimal" value="150"></div>
-      <div style="display:flex;align-items:flex-end"><button class="btn" id="r_calc" type="button">Calculate</button></div>
+  <!-- Refi Break-even -->
+  <section class="card" id="break-card">
+    <h2>🔄 Refinance Break-Even</h2>
+    <div class="subgrid">
+      <div>
+        <label for="b_costs">Total refinance costs ($)</label>
+        <input id="b_costs" type="number" value="4500" />
+      </div>
+      <div>
+        <label for="b_savings">Monthly payment savings ($)</label>
+        <input id="b_savings" type="number" value="150" />
+      </div>
+      <div style="display:flex; align-items:end">
+        <button id="b_go" class="btn">Calculate</button>
+      </div>
     </div>
-    <div class="kpis" style="margin-top:12px">
-      <div class="kpi"><div>Break-even (months)</div><strong id="r_months">—</strong></div>
-      <div class="kpi"><div>Rounded up</div><strong id="r_round">—</strong></div>
-    </div>
-    <p class="legend">Formula: <strong>months = total refinance costs ÷ monthly savings</strong>. If savings ≤ 0, break-even is not achievable.</p>
-  </section>
-</main>
 
-<footer><div class="small">© Sabrina Montalvo — Valuable Calculator™ · NMLS #575897</div></footer>
+    <div class="kpis" style="margin-top:14px">
+      <div class="kpi"><div>Break-even (months)</div><small id="b_months">—</small></div>
+      <div class="kpi"><div>Rounded up</div><small id="b_round">—</small></div>
+    </div>
+
+    <p style="margin-top:10px; font-size:13px; color:#333">
+      Formula: <strong>months = total refinance costs ÷ monthly savings</strong>.
+      If savings ≤ 0, break-even is not achievable.
+    </p>
+  </section>
+</div>
+
+<footer>
+  <div class="foot-wrap">
+    <div class="foot-grid">
+      <div>© Sabrina Montalvo — Valuable Calculator™</div>
+      <div class="links">
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="accessibility.html">Accessibility</a>
+      </div>
+    </div>
+    <div class="foot-grid" style="margin-top:8px">
+      <div>Compliance: NMLS #575897 · Subject to program rules</div>
+      <div class="note">Best viewed from a laptop or desktop for full experience. Mobile-optimized version coming soon.</div>
+    </div>
+  </div>
+</footer>
 
 <script>
-/* ---------- helpers ---------- */
-const fmtMoney=v=>(isFinite(v)?v:0).toLocaleString(undefined,{style:'currency',currency:'USD'});
-const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+/* ===== Utilities ===== */
+const fmtMoney = v => (isFinite(v)? v:0).toLocaleString(undefined,{style:'currency',currency:'USD'});
+const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
 
-/* ---------- Calculator (no double-typing) ---------- */
-(()=>{
-  const display=document.getElementById('calcDisplay');
-  const keys=document.querySelectorAll('.calc-grid button:not(#clear):not(#back)');
-  const clear=document.getElementById('clear');
-  const back=document.getElementById('back');
-  const reset=document.getElementById('calcReset');
+/* ===== Calculator (keyboard only when display focused) ===== */
+(() => {
+  const disp = document.getElementById('calcDisplay');
+  const keys = document.querySelectorAll('#calc-card .calc [data-k]');
+  const back = document.getElementById('calcBack');
+  const reset = document.getElementById('calcReset');
 
-  function insert(ch){
-    if(ch==='='){ compute(); return; }
-    display.value=(display.value==='0' && /[0-9.]/.test(ch)) ? ch : display.value+ch;
+  function put(k){
+    if(k==='='){ try{ disp.value = '' + (Function(`"use strict";return (${disp.value||0})`)()); }catch{ /* ignore */ } return; }
+    const cur = disp.value === '0' ? '' : disp.value;
+    disp.value = cur + k;
   }
-  function compute(){
-    try{
-      const expr=display.value.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
-      const val=Function('return ('+expr+')')();
-      if(isFinite(val)) display.value=String(val);
-    }catch(e){}
-  }
-  keys.forEach(b=>b.addEventListener('click',()=>insert(b.textContent.trim())));
-  clear.addEventListener('click',()=>display.value='0');
-  back.addEventListener('click',()=>display.value=display.value.length>1?display.value.slice(0,-1):'0');
-  reset.addEventListener('click',()=>display.value='0');
-  display.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ compute(); e.preventDefault(); } });
-  display.addEventListener('pointerdown',()=>display.focus());
-})();
+  keys.forEach(b => b.addEventListener('click', () => put(b.dataset.k)));
+  back.addEventListener('click', ()=> disp.value = disp.value.length>1 ? disp.value.slice(0,-1) : '0');
+  reset.addEventListener('click', ()=> disp.value='0');
 
-/* ---------- Equity & Donut ---------- */
-(()=>{
-  const g=id=>document.getElementById(id);
-  const inp={ val:g('v_value'), mort:g('v_mort'), other:g('v_other'), bench:g('v_bench') };
-  const k={ debt:g('k_debt'), ltv:g('k_ltv'), max:g('k_max'), avail:g('k_avail') };
-  const c=g('v_donut'),ctx=c.getContext('2d');
-  const CX=c.width/2,CY=c.height/2,R=190,Ri=120;
-
-  const css=prop=>getComputedStyle(document.documentElement).getPropertyValue(prop)||'';
-  function arc(r,st,ang,col,w){ctx.beginPath();ctx.arc(CX,CY,r,st,st+ang);ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineCap='butt';ctx.stroke()}
-  function tick(a,col,len=24,w=4){ctx.save();ctx.translate(CX,CY);ctx.rotate(a);ctx.beginPath();ctx.moveTo(0,-R-4);ctx.lineTo(0,-R-4-len);ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();ctx.restore()}
-
-  function draw(mort,other,bench){
-    ctx.clearRect(0,0,c.width,c.height);
-    const full=Math.PI*2, startTop=-Math.PI/2;
-    const val=+inp.val.value||1;
-    const mortPct=mort/val, otherPct=other/val, debtPct=mortPct+otherPct;
-    const benchAvail=Math.max(0,bench-debtPct);
-    const untouch=Math.max(0,1-bench);
-
-    let a=startTop;
-    arc(R,a,full*mortPct,css('--mauve')||'#B892A6',46); a+=full*mortPct;
-    arc(R,a,full*otherPct,css('--mint')||'#8EBF9F',46); a+=full*otherPct;
-    arc(R,a,full*benchAvail,css('--gold')||'#C6AA58',46); a+=full*benchAvail;
-    arc(R,a,full*untouch,css('--cream')||'#F3F2ED',46);
-
-    ctx.beginPath();ctx.arc(CX,CY,Ri,0,full);ctx.fillStyle='#fff';ctx.fill();
-    ctx.fillStyle='#777';ctx.font='12px system-ui,sans-serif';ctx.textAlign='center';
-    ctx.fillText('100%',CX,CY-R-22);ctx.fillText('start',CX,CY-R-8);
-    tick(startTop+full*bench, '#C6AA58', 24, 4);
-  }
-
-  function update(){
-    const val = Math.max(0,+inp.val.value||0);
-    const mort = clamp(+inp.mort.value||0,0,val);
-    const other= clamp(+inp.other.value||0,0,Math.max(0,val-mort));
-    let bench=(+inp.bench.value||80)/100; bench=clamp(bench,.5,1);
-
-    const debt = mort+other;
-    const ltv  = val? (debt/val):0;
-    const maxB = val*bench;
-    const avail= Math.max(0,maxB-debt);
-
-    k.debt.textContent=fmtMoney(debt);
-    k.ltv.textContent=(ltv*100).toFixed(1)+'%';
-    k.max.textContent=fmtMoney(maxB);
-    k.avail.textContent=fmtMoney(avail);
-
-    draw(mort,other,bench);
-  }
-
-  // Recalc on input-change, plus a manual button for mobile
-  ['input','change'].forEach(ev=>{
-    Object.values(inp).forEach(el=>el.addEventListener(ev,update));
+  // keyboard only when focused
+  disp.addEventListener('keydown', (e)=>{
+    const k = e.key;
+    if(/[0-9.+\-*/()]/.test(k)){ /* allow */ }
+    else if(k==='Enter'){ e.preventDefault(); put('='); }
+    else if(k==='Backspace'){ /* allow */ }
+    else { e.preventDefault(); }
   });
-  document.getElementById('v_recalc').addEventListener('click',update);
-  update();
 })();
 
-/* ---------- Amortization ---------- */
-(()=>{
-  const gi=id=>document.getElementById(id);
-  const I={loan:gi('a_loan'),rate:gi('a_rate'),term:gi('a_term'),orig:gi('a_orig'),bal:gi('a_balance'),extra:gi('a_extra'),biw:gi('a_biweekly'),lump:gi('a_lump'),lumpm:gi('a_lumpm')};
-  const O={base:gi('a_base'),payoff:gi('a_payoff'),saved:gi('a_saved'),msaved:gi('a_msaved'),tbody:gi('a_tbody')};
+/* ===== Equity + Donut ===== */
+(() => {
+  const els = {
+    v:document.getElementById('eqValue'),
+    m:document.getElementById('eqMort'),
+    o:document.getElementById('eqOther'),
+    b:document.getElementById('eqBench'),
+    calc:document.getElementById('eqCalc'),
+    debt:document.getElementById('kpiDebt'),
+    ltv:document.getElementById('kpiLTV'),
+    max:document.getElementById('kpiMax'),
+    avail:document.getElementById('kpiAvail'),
+    canvas:document.getElementById('donut')
+  };
 
-  const mPmt=(P,r,n)=> r===0? P/n : P*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
-  const addM=(d,m)=>{const x=new Date(d);x.setMonth(x.getMonth()+m);return x};
+  function compute(){
+    const V = +els.v.value||0;
+    const M = +els.m.value||0;
+    const O = +els.o.value||0;
+    const B = clamp(+els.b.value||80, 60, 100) / 100; // 0.8 default
+    els.b.value = Math.round(B*100);
+
+    const totalDebt = M + O;
+    const ltv = V>0 ? totalDebt / V : 0;
+
+    const maxLoanAtBench = V * B;
+    const available = Math.max(0, maxLoanAtBench - totalDebt);
+    // Required (untouchable) equity = V - maxLoanAtBench
+    const untouchable = Math.max(0, V - maxLoanAtBench);
+
+    els.debt.textContent = fmtMoney(totalDebt);
+    els.ltv.textContent = (ltv*100).toFixed(1)+'%';
+    els.max.textContent = fmtMoney(maxLoanAtBench);
+    els.avail.textContent = fmtMoney(available);
+
+    draw(V,M,O,available,untouchable);
+  }
+
+  function draw(V,M,O,Avail,Untouch){
+    const cx = els.canvas.getContext('2d');
+    const W = els.canvas.width, H = els.canvas.height;
+    cx.clearRect(0,0,W,H);
+
+    const center = {x:W/2, y:H/2};
+    const R = Math.min(W,H)/2 - 8;
+    const inner = R * 0.58;
+
+    // draw base ring outline
+    cx.lineWidth = 1;
+    cx.strokeStyle = '#d8d3cc';
+    cx.beginPath();
+    cx.arc(center.x,center.y,R,0,Math.PI*2);
+    cx.stroke();
+
+    // start angle at top (12 o’clock)
+    let a = -Math.PI/2;
+    const drawSlice = (val, color) => {
+      const frac = V>0 ? clamp(val/V,0,1) : 0;
+      const sweep = frac * Math.PI*2;
+      if(sweep<=0.0001) return;
+      cx.beginPath();
+      cx.arc(center.x,center.y,R,a,a+sweep);
+      cx.arc(center.x,center.y,inner,a+sweep,a,true);
+      cx.closePath();
+      cx.fillStyle = color;
+      cx.fill();
+      a += sweep;
+    };
+
+    // Order: Mortgage (mauve) -> Other liens (mint) -> Available (gold) -> Untouchable (cream)
+    drawSlice(M, getComputedStyle(document.documentElement).getPropertyValue('--mauve').trim() || '#C8A1C6');
+    drawSlice(O, getComputedStyle(document.documentElement).getPropertyValue('--mint').trim() || '#7FBF9E');
+    drawSlice(Avail, getComputedStyle(document.documentElement).getPropertyValue('--gold').trim() || '#C6AA58');
+    drawSlice(Untouch, '#f5f2ea');
+
+    // start tick at 12 o’clock
+    cx.strokeStyle = '#b3ad9f';
+    cx.lineWidth = 3;
+    cx.beginPath();
+    cx.moveTo(center.x, center.y - R);
+    cx.lineTo(center.x, center.y - R + 14);
+    cx.stroke();
+  }
+
+  ['input','change'].forEach(ev=>{
+    els.v.addEventListener(ev,()=>{/* noop */});
+    els.m.addEventListener(ev,()=>{/* noop */});
+    els.o.addEventListener(ev,()=>{/* noop */});
+    els.b.addEventListener(ev,()=>{/* noop */});
+  });
+  els.calc.addEventListener('click', compute);
+
+  // initial
+  compute();
+})();
+
+/* ===== Amortization ===== */
+(() => {
+  const $ = id=>document.getElementById(id);
+  const amount=$('a_amount'), apr=$('a_apr'), term=$('a_term'), start=$('a_start'),
+        curr=$('a_curr'), extra=$('a_extra'), bi=$('a_biweekly'),
+        lump=$('a_lump'), lumpm=$('a_lumpm'),
+        base=$('a_base'), payoff=$('a_payoff'), saved=$('a_saved'), msaved=$('a_msaved'),
+        tbl=$('a_tbl').querySelector('tbody'), go=$('a_go');
+
+  // default start to next month
+  const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+1);
+  start.valueAsDate = d;
+
+  function calc(){
+    const P0 = +(amount.value||0);
+    const R = (+(apr.value||0))/100/12;
+    const N = +(term.value||0) * 12;
+    const startDate = new Date(start.value||new Date());
+    let bal = +(curr.value||P0);
+    if (bal<=0) bal=P0;
+
+    // base monthly payment (no extras)
+    const Pmt = R===0 ? bal/N : bal*R/(1-Math.pow(1+R,-N));
+    base.textContent = fmtMoney(Pmt);
+
+    tbl.innerHTML='';
+    let totalIntBase = 0, totalIntNew = 0;
+    let month=0, date=new Date(startDate);
+    let paidOffDate = null;
+
+    while (bal>0 && month< N+600){
+      month++;
+      const interest = bal*R;
+      totalIntNew += interest;
+      let principal = Math.min(Pmt - interest, bal);
+
+      let extraNow = +(extra.value||0);
+
+      // bi-weekly modeled as ~1 extra payment per year (simple & transparent)
+      if (bi.value==='Yes' && month%12===0) extraNow += Pmt;
+
+      // add lump sum at chosen month #
+      if (+lump.value>0 && +lumpm.value===month) extraNow += +lump.value;
+
+      const totalPrincipal = Math.min(principal + extraNow, bal);
+      bal = +(bal - totalPrincipal).toFixed(6);
+
+      // fill row
+      const tr=document.createElement('tr');
+      const row = [
+        month,
+        date.toLocaleDateString(undefined,{year:'numeric',month:'short'}),
+        fmtMoney(Pmt + extraNow),
+        fmtMoney(interest),
+        fmtMoney(principal),
+        fmtMoney(extraNow),
+        fmtMoney(Math.max(bal,0))
+      ];
+      row.forEach(x=>{ const td=document.createElement('td'); td.textContent=x; tr.appendChild(td); });
+      tbl.appendChild(tr);
+
+      if (bal<=0 && !paidOffDate){ paidOffDate = new Date(date); }
+
+      // advance date
+      date.setMonth(date.getMonth()+1);
+    }
+
+    // baseline interest if no extras (for savings calc)
+    // (simple approximate baseline using standard amort formula)
+    let bal2 = +(curr.value||P0);
+    if (bal2<=0) bal2=P0;
+    for(let i=0;i<N;i++){
+      const int2 = bal2*R;
+      totalIntBase += int2;
+      const prin2 = Math.min(Pmt - int2, bal2);
+      bal2 -= prin2;
+      if (bal2<=0) break;
+    }
+
+    saved.textContent = fmtMoney(Math.max(0,totalIntBase-totalIntNew));
+    payoff.textContent = paidOffDate ? paidOffDate.toLocaleDateString(undefined,{year:'numeric',month:'long'}) : '—';
+
+    // months saved (very rough): difference between months actually used vs full term
+    const monthsUsed = month;
+    msaved.textContent = Math.max(0, (term.value*12) - monthsUsed);
+  }
+  go.addEventListener('click', calc);
+})();
+
+/* ===== Break-even ===== */
+(() => {
+  const costs=document.getElementById('b_costs'),
+        sav=document.getElementById('b_savings'),
+        go=document.getElementById('b_go'),
+        outM=document.getElementById('b_months'),
+        outR=document.getElementById('b_round');
 
   function run(){
-    const loan=+I.loan.value||0, apr=(+I.rate.value||0)/100, term=(+I.term.value||0);
-    const biw=I.biw.value==='Yes', extra=+I.extra.value||0, lump=+I.lump.value||0, lumpm=(+I.lumpm.value||0)|0;
-    const orig=I.orig.value?new Date(I.orig.value):new Date();
-    let balance=+I.bal.value||loan;
-
-    const n=term*12, r=apr/12, base=mPmt(loan,r,n);
-    O.base.textContent=fmtMoney(base);
-
-    let i=0,totalInt=0,months=0; const rows=[];
-    while(balance>0 && i<n+600){
-      i++;
-      const interest=balance*r;
-      let principal=base-interest;
-      let extraMo=extra;
-      if(biw && i%12===0) extraMo+=base;
-      if(i===lumpm && lump>0) extraMo+=lump;
-      if(principal+extraMo>balance){ principal=balance; extraMo=0; }
-      balance=balance-principal-extraMo; if(balance<0) balance=0;
-      totalInt+=interest; months++;
-      rows.push([i, addM(orig,i).toLocaleDateString(undefined,{year:'numeric',month:'2-digit',day:'2-digit'}), fmtMoney(base+extraMo), fmtMoney(interest), fmtMoney(principal), fmtMoney(extraMo), fmtMoney(balance)]);
-      if(balance<=0) break;
-    }
-    // base scenario
-    let balB=+I.bal.value||loan, tIntB=0, mB=0;
-    while(balB>0 && mB<n+20){
-      mB++; const intB=balB*r; let prinB=base-intB; if(prinB>balB) prinB=balB; balB-=prinB; tIntB+=intB;
-    }
-
-    O.tbody.innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td></tr>`).join('');
-    const saved=Math.max(0,tIntB-totalInt);
-    O.saved.textContent=fmtMoney(saved);
-    O.msaved.textContent=(tIntB>totalInt)?(mB-months):0;
-    O.payoff.textContent=rows.length?rows.at(-1)[1]:'—';
+    const c=+(costs.value||0), s=+(sav.value||0);
+    if(s<=0){ outM.textContent='—'; outR.textContent='—'; return; }
+    const m = c/s;
+    outM.textContent = m.toFixed(2);
+    outR.textContent = Math.ceil(m);
   }
-  document.getElementById('a_calc').addEventListener('click',run);
-})();
-
-/* ---------- Refi Break-Even ---------- */
-(()=>{
-  const c=document.getElementById('r_costs'), s=document.getElementById('r_savings');
-  const om=document.getElementById('r_months'), or=document.getElementById('r_round');
-  function calc(){ const C=+c.value||0, S=+s.value||0; if(S<=0){om.textContent='—';or.textContent='—';return;}
-    const m=C/S; om.textContent=m.toFixed(2); or.textContent=Math.ceil(m); }
-  document.getElementById('r_calc').addEventListener('click',calc);
+  go.addEventListener('click', run);
 })();
 </script>
 </body>
