@@ -11,22 +11,22 @@
   --ink:#01311F;
   --gold:#C6AA58;
   --paper:#F3F2ED;
-  --mauve:#B892A6;      /* mortgage */
-  --mint:#8EBF9F;       /* other liens */
-  --cream:#F3F2ED;      /* untouchable equity */
+  --mauve:#B892A6;
+  --mint:#8EBF9F;
+  --cream:#F3F2ED;
   --line:#E7E3DA;
   --bg:#F7F6F2;
   --shadow:0 1px 0 rgba(0,0,0,.02),0 8px 24px rgba(1,49,31,.06);
 }
 *{box-sizing:border-box}
 body{margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
-header{background:var(--ink);color:#fff;padding:28px 16px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+header{background:var(--ink);color:#fff;padding:28px 16px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
 .hwrap{max-width:1100px;margin:0 auto}
 .badge{display:inline-block;padding:6px 10px;border-radius:16px;background:#062a1c30;border:1px solid #2b5a45;color:#d9efe6;font-weight:600}
 h1{margin:12px 0 6px;font-weight:800;letter-spacing:.2px}
 h1 span{color:var(--gold)}
 .sub{opacity:.85;font-size:.95rem}
-.main{max-width:1100px;margin:18px auto;padding:12px}
+.main{max-width:1100px;margin:10px auto 18px;padding:12px} /* tighter top spacing */
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
 .grid{display:grid;gap:20px;grid-template-columns:360px 1fr}
 h2{margin:0 0 12px}
@@ -60,7 +60,11 @@ input[type=number]{-moz-appearance:textfield;font-size:16px}
 input,select,textarea{font-size:16px}
 canvas{max-width:420px;width:100%;height:auto;display:block}
 @media (max-width:980px){.grid{grid-template-columns:1fr}}
-@media (max-width:640px){.row-2{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){
+  .row-2{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .main{margin-top:6px} /* mobile: align tight to header */
+}
 footer{padding:26px 12px;color:#666;text-align:center}
 footer .small{font-size:.9rem}
 </style>
@@ -102,12 +106,17 @@ footer .small{font-size:.9rem}
       <div><label for="v_other">Other Liens ($)</label><input id="v_other" type="number" inputmode="decimal" value="0"></div>
       <div><label for="v_bench">Benchmark LTV (%)</label><input id="v_bench" type="number" inputmode="decimal" value="80" min="50" max="100"></div>
     </div>
+
+    <!-- NEW: manual recalc button for mobile users -->
+    <button id="v_recalc" class="btn" type="button" style="margin-bottom:12px">Recalculate</button>
+
     <div class="kpis">
       <div class="kpi"><div>Total Debt</div><strong id="k_debt">$0</strong></div>
       <div class="kpi"><div>LTV</div><strong id="k_ltv">0%</strong></div>
       <div class="kpi"><div>Max @ Benchmark</div><strong id="k_max">$0</strong></div>
       <div class="kpi"><div>Available @ Benchmark</div><strong id="k_avail" style="color:#0a6a2f">$0</strong></div>
     </div>
+
     <div style="margin-top:16px;display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
       <canvas id="v_donut" width="480" height="480"></canvas>
       <div style="min-width:260px">
@@ -179,7 +188,7 @@ footer .small{font-size:.9rem}
 const fmtMoney=v=>(isFinite(v)?v:0).toLocaleString(undefined,{style:'currency',currency:'USD'});
 const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
 
-/* ---------- Calculator (fixed no double-typing) ---------- */
+/* ---------- Calculator (no double-typing) ---------- */
 (()=>{
   const display=document.getElementById('calcDisplay');
   const keys=document.querySelectorAll('.calc-grid button:not(#clear):not(#back)');
@@ -202,11 +211,7 @@ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
   clear.addEventListener('click',()=>display.value='0');
   back.addEventListener('click',()=>display.value=display.value.length>1?display.value.slice(0,-1):'0');
   reset.addEventListener('click',()=>display.value='0');
-
-  // Only handle Enter to evaluate; let normal typing go through (prevents “22” issue)
-  display.addEventListener('keydown',(e)=>{
-    if(e.key==='Enter'){ compute(); e.preventDefault(); }
-  });
+  display.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ compute(); e.preventDefault(); } });
   display.addEventListener('pointerdown',()=>display.focus());
 })();
 
@@ -219,7 +224,6 @@ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
   const CX=c.width/2,CY=c.height/2,R=190,Ri=120;
 
   const css=prop=>getComputedStyle(document.documentElement).getPropertyValue(prop)||'';
-
   function arc(r,st,ang,col,w){ctx.beginPath();ctx.arc(CX,CY,r,st,st+ang);ctx.strokeStyle=col;ctx.lineWidth=w;ctx.lineCap='butt';ctx.stroke()}
   function tick(a,col,len=24,w=4){ctx.save();ctx.translate(CX,CY);ctx.rotate(a);ctx.beginPath();ctx.moveTo(0,-R-4);ctx.lineTo(0,-R-4-len);ctx.strokeStyle=col;ctx.lineWidth=w;ctx.stroke();ctx.restore()}
 
@@ -237,12 +241,9 @@ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
     arc(R,a,full*benchAvail,css('--gold')||'#C6AA58',46); a+=full*benchAvail;
     arc(R,a,full*untouch,css('--cream')||'#F3F2ED',46);
 
-    // inner
     ctx.beginPath();ctx.arc(CX,CY,Ri,0,full);ctx.fillStyle='#fff';ctx.fill();
-
     ctx.fillStyle='#777';ctx.font='12px system-ui,sans-serif';ctx.textAlign='center';
     ctx.fillText('100%',CX,CY-R-22);ctx.fillText('start',CX,CY-R-8);
-
     tick(startTop+full*bench, '#C6AA58', 24, 4);
   }
 
@@ -264,9 +265,12 @@ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
 
     draw(mort,other,bench);
   }
+
+  // Recalc on input-change, plus a manual button for mobile
   ['input','change'].forEach(ev=>{
     Object.values(inp).forEach(el=>el.addEventListener(ev,update));
   });
+  document.getElementById('v_recalc').addEventListener('click',update);
   update();
 })();
 
@@ -302,7 +306,7 @@ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
       rows.push([i, addM(orig,i).toLocaleDateString(undefined,{year:'numeric',month:'2-digit',day:'2-digit'}), fmtMoney(base+extraMo), fmtMoney(interest), fmtMoney(principal), fmtMoney(extraMo), fmtMoney(balance)]);
       if(balance<=0) break;
     }
-    // base scenario (no extras)
+    // base scenario
     let balB=+I.bal.value||loan, tIntB=0, mB=0;
     while(balB>0 && mB<n+20){
       mB++; const intB=balB*r; let prinB=base-intB; if(prinB>balB) prinB=balB; balB-=prinB; tIntB+=intB;
