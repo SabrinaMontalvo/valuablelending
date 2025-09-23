@@ -1,64 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Terms of Use — Valuable Calculator™</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Terms of Use for Valuable Calculator by Sabrina Montalvo." />
   <style>
-    :root{ --ink:#01311F; --gold:#C6AA58; --paper:#F3F2ED; }
-    html,body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    .wrap{max-width:840px;margin:24px auto;padding:0 16px}
-    a{color:var(--ink);text-decoration:underline}
-    h1{font-size:clamp(24px,3vw,34px);margin:0 0 12px}
-    h2{font-size:clamp(18px,2.2vw,24px);margin:28px 0 8px}
-    .pill{display:inline-block;background:var(--gold);color:var(--ink);padding:4px 10px;border-radius:999px;font-weight:700}
-    .note{color:#4b5b57}
-    header,footer{padding:16px 0}
-    footer{margin-top:32px;border-top:1px solid #E7E1D6;font-size:14px}
+    :root{
+      --ink:#01311F; --gold:#C6AA58; --paper:#F3F2ED; --muted:#5A6C62;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);
+         font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--ink);text-decoration-thickness:2px;text-underline-offset:2px}
+    header{background:var(--ink);color:#fff}
+    .wrap{max-width:920px;margin-inline:auto;padding:28px 20px}
+    h1{font-size:clamp(26px,4.6vw,40px);margin:0 0 6px}
+    h2{font-size:clamp(18px,3.2vw,22px);margin:32px 0 10px}
+    .badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);
+           color:#fff;border-radius:999px;padding:6px 10px;font-size:14px}
+    main{padding:26px 20px}
+    .note{padding:12px 14px;background:#fff;border:1px solid #e6e6df;border-radius:14px;color:var(--muted)}
+    li{margin:6px 0}
+    footer{border-top:1px solid #e7e6df;background:#fff}
+    .brand{color:var(--gold);font-weight:700}
+    .btn{display:inline-block;margin:10px 0 0;padding:10px 14px;background:var(--gold);color:#1b1b1b;
+         border-radius:12px;text-decoration:none;font-weight:600}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="pill">Valuable Calculator™</div>
+  <header>
+    <div class="wrap">
+      <div class="badge">NMLS #575897</div>
       <h1>Terms of Use</h1>
-      <p class="note"><a href="/">← Back to the Calculator</a></p>
-    </header>
+      <p style="opacity:.9">Valuable Calculator™ — Old-School + Mortgage Tools</p>
+    </div>
+  </header>
 
-    <p><strong>Effective date:</strong> September 2025</p>
+  <main class="wrap">
+    <p class="note"><strong>Educational only.</strong> Principal &amp; interest shown; escrows not included. This site and tools do not constitute credit advice, loan approval, or a commitment to lend. Always consult a licensed professional for your situation.</p>
 
-    <h2>1) Educational Purpose Only</h2>
-    <p>The tools on this site are provided for educational purposes only and are not a commitment to lend, financial advice, or a loan offer. All outputs are estimates and may differ from lender calculations.</p>
+    <h2>1) Acceptance of Terms</h2>
+    <p>By accessing or using this website and tools (the “Service”), you agree to these Terms of Use and our Privacy Notice. If you do not agree, do not use the Service.</p>
 
-    <h2>2) No Client Relationship</h2>
-    <p>Using this website does not create a client, advisory, or brokerage relationship with Sabrina Montalvo or Valuable Calculator™.</p>
-
-    <h2>3) Assumptions & Limitations</h2>
+    <h2>2) Intended Use</h2>
     <ul>
-      <li>Calculators show <em>principal & interest only</em> unless stated otherwise; taxes, insurance, HOA, PMI, fees, and points are excluded.</li>
-      <li>APR/interest rate, term, and dates are entered by you. Small differences in rounding/compounding can change results.</li>
-      <li>Bi-weekly is modeled as approximately one extra monthly payment per year (26 half-payments).</li>
+      <li>The Service provides general mortgage math, equity visuals, amortization, and payoff “what-ifs.”</li>
+      <li>Outputs are estimates only; actual lender terms, fees, and program rules vary and may change without notice.</li>
+      <li>You are responsible for verifying results with your lender or advisor.</li>
     </ul>
 
-    <h2>4) Your Responsibilities</h2>
-    <p>You are responsible for verifying all numbers with your lender or financial professional before making decisions.</p>
+    <h2>3) No Professional Advice</h2>
+    <p>Information is provided for educational purposes and is not legal, financial, or tax advice. Use of the Service does not create a client relationship.</p>
 
-    <h2>5) Intellectual Property</h2>
-    <p>All content is © Sabrina Montalvo. “Valuable Calculator™” branding is used by permission. You may not copy, resell, or distribute these tools without written consent.</p>
+    <h2>4) Accounts &amp; Data</h2>
+    <p>We do not require account creation. If you contact us, you agree that we may store your message for support purposes. See the Privacy Notice for details.</p>
 
-    <h2>6) Privacy & Data</h2>
-    <p>See the <a href="privacy.html">Privacy Policy</a> to learn how we handle information. Calculations run locally in your browser; we do not store your entries on our servers.</p>
+    <h2>5) Intellectual Property &amp; License</h2>
+    <ul>
+      <li>© <span id="y"></span> Sabrina Montalvo. Valuable Calculator™ branding and design are protected.</li>
+      <li>You may use the public website for personal or internal business evaluation.</li>
+      <li>No reproduction, resale, framing, scraping, reverse engineering, or derivative works without written permission.</li>
+    </ul>
 
-    <h2>7) Changes</h2>
-    <p>We may update these terms from time to time. Continued use constitutes acceptance of the current terms.</p>
+    <h2>6) White-Label &amp; Enterprise Licensing</h2>
+    <p>Companies may license the tool for their website (domain-locked) under a white-label agreement. Contact <a href="mailto:hello@valuablelending.com">hello@valuablelending.com</a> for pricing and terms.</p>
 
-    <h2>8) Contact</h2>
-    <p>Questions? Email <a href="mailto:hello@sabrinamontalvo.com">hello@sabrinamontalvo.com</a>.</p>
+    <h2>7) Warranty &amp; Liability</h2>
+    <p>THE SERVICE IS PROVIDED “AS IS.” WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED. TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE ARE NOT LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.</p>
 
-    <footer>
-      <div>© Sabrina Montalvo — Valuable Calculator™ · NMLS #575897</div>
-      <div><a href="privacy.html">Privacy</a> · <a href="accessibility.html">Accessibility</a></div>
-    </footer>
-  </div>
+    <h2>8) Acceptable Use</h2>
+    <ul>
+      <li>No automated scraping or stress-testing.</li>
+      <li>No unlawful, misleading, or harmful use.</li>
+    </ul>
+
+    <h2>9) Changes</h2>
+    <p>We may update these Terms at any time by posting a revised version with a new “Last updated” date.</p>
+
+    <h2>10) Contact</h2>
+    <p>Email <a href="mailto:hello@valuablelending.com">hello@valuablelending.com</a> with questions.</p>
+
+    <p style="margin-top:28px"><a class="btn" href="index.html">← Back to the Calculator</a></p>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+      <div>© <span id="y2"></span> Sabrina Montalvo — <span class="brand">Valuable Calculator™</span></div>
+      <nav style="display:flex;gap:14px">
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="accessibility.html">Accessibility</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const y=new Date().getFullYear();
+    document.getElementById('y').textContent=y;
+    document.getElementById('y2').textContent=y;
+  </script>
 </body>
 </html>

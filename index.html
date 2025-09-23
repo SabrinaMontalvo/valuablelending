@@ -176,7 +176,7 @@
 
   <!-- Old-school calculator -->
   <section class="card" id="calc-card">
-    <h2>Old-School Calculator <button id="calcReset" class="pill" style="margin-left:8px">Reset</button></h2>
+    <h2>Old-School Calculator</h2>
     <div class="calc">
       <input id="calcDisplay" class="calc-display" aria-label="Calculator display" value="0" />
       <!-- row 1 -->
@@ -388,7 +388,6 @@ const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
   const disp = document.getElementById('calcDisplay');
   const keys = document.querySelectorAll('#calc-card .calc [data-k]');
   const back = document.getElementById('calcBack');
-  const reset = document.getElementById('calcReset');
 
   function put(k){
     if(k==='='){ try{ disp.value = '' + (Function(`"use strict";return (${disp.value||0})`)()); }catch{ /* ignore */ } return; }
@@ -397,7 +396,6 @@ const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
   }
   keys.forEach(b => b.addEventListener('click', () => put(b.dataset.k)));
   back.addEventListener('click', ()=> disp.value = disp.value.length>1 ? disp.value.slice(0,-1) : '0');
-  reset.addEventListener('click', ()=> disp.value='0');
 
   // keyboard only when focused
   disp.addEventListener('keydown', (e)=>{
